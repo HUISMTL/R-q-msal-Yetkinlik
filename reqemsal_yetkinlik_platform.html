@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rəqəmsal Yetkinlik — İDDA 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+:root{
+  --navy:#0d2044;--navy2:#1a3a6b;--blue:#1e63c8;--blue-l:#deeafd;--blue-ll:#f0f6ff;
+  --g900:#0f1117;--g700:#374151;--g600:#4b5563;--g500:#6b7280;--g400:#9ca3af;
+  --g300:#d1d5db;--g200:#e5e7eb;--g100:#f3f4f6;--g50:#f9fafb;
+  --green:#047857;--green-l:#d1fae5;
+  --amber:#b45309;--amber-l:#fef3c7;
+  --red:#b91c1c;--red-l:#fee2e2;
+  --teal:#0e7490;--teal-l:#cffafe;
+  --bg:#eef2f9;--surf:#fff;
+  --r:12px;--rs:8px;
+  --sh:0 1px 3px rgba(13,32,68,.07),0 2px 12px rgba(13,32,68,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--g900);min-height:100vh;font-size:14px}
+
+/* ── NAV ── */
+.topbar{background:var(--navy);height:56px;display:flex;align-items:center;padding:0 1.5rem;position:sticky;top:0;z-index:300;box-shadow:0 2px 16px rgba(13,32,68,.35)}
+.tb-logo{display:flex;align-items:center;gap:9px;margin-right:1.75rem}
+.tb-logo-box{width:34px;height:34px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tb-logo-name{font-size:14px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.tb-logo-sub{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.05em}
+.tb-nav{display:flex;gap:2px;flex:1}
+.tn{display:flex;align-items:center;gap:6px;padding:6px 11px;border-radius:6px;font-size:12px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;transition:all .15s;border:none;background:transparent;font-family:inherit;white-space:nowrap}
+.tn:hover{color:#fff;background:rgba(255,255,255,.09)}
+.tn.act{color:#fff;background:rgba(255,255,255,.15)}
+.tb-user{display:flex;align-items:center;gap:8px}
+.tb-av{width:32px;height:32px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.tb-name{font-size:12px;font-weight:600;color:#fff}
+.tb-role{font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.05em}
+.tb-out{display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,.4);cursor:pointer;padding:5px 8px;border-radius:5px;transition:all .15s;border:none;background:transparent;font-family:inherit}
+.tb-out:hover{background:rgba(255,255,255,.1);color:#fff}
+
+/* ── PAGE ── */
+.screen{display:none}.screen.on{display:block}
+
+/* ── LOGIN ── */
+.lp{min-height:calc(100vh - 56px);display:flex;background:linear-gradient(145deg,#0a1628 0%,var(--navy) 45%,#1a3a6b 100%);overflow:hidden}
+.lp-left{flex:1;display:flex;flex-direction:column;justify-content:center;padding:4rem 3rem 4rem 5rem}
+.lp-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:5px 14px;font-size:11px;font-weight:700;color:rgba(255,255,255,.65);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.75rem}
+.lp-h{font-size:42px;font-weight:800;color:#fff;line-height:1.1;letter-spacing:-.04em;margin-bottom:1.1rem}
+.lp-h span{color:#6da3ee}
+.lp-p{font-size:13px;color:rgba(255,255,255,.45);line-height:1.75;max-width:360px}
+.lp-right{width:420px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:3rem 3rem 3rem 1rem}
+.lcard{background:#fff;border-radius:18px;box-shadow:0 20px 70px rgba(13,32,68,.5);padding:2.25rem;width:100%;animation:su .35s ease}
+@keyframes su{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.lcard-h{font-size:17px;font-weight:800;color:var(--g900);margin-bottom:4px;letter-spacing:-.03em}
+.lcard-s{font-size:12px;color:var(--g500);margin-bottom:1.5rem;line-height:1.5}
+.fg{margin-bottom:1rem}
+.fl{display:block;font-size:11px;font-weight:700;color:var(--g700);margin-bottom:5px;letter-spacing:.03em}
+.fi{width:100%;padding:10px 12px;border:1.5px solid var(--g200);border-radius:8px;font-family:inherit;font-size:13px;color:var(--g900);background:var(--g50);outline:none;transition:all .15s}
+.fi:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px var(--blue-ll)}
+.lbtn{width:100%;padding:12px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s;margin-top:.25rem}
+.lbtn:hover{background:var(--navy2)}
+.demo-box{margin-top:1.1rem;background:var(--blue-ll);border:1px solid var(--blue-l);border-radius:8px;padding:.75rem 1rem;font-size:11px;color:var(--blue);line-height:1.7}
+.demo-box strong{display:block;font-weight:700;margin-bottom:5px}
+.db{display:inline-block;padding:3px 9px;background:var(--blue);color:#fff;border-radius:5px;cursor:pointer;font-size:11px;font-weight:600;margin:2px 2px 2px 0;transition:all .12s}
+.db:hover{background:var(--navy)}
+.lerr{font-size:12px;color:var(--red);margin-bottom:.75rem;padding:8px 10px;background:var(--red-l);border-radius:6px;display:none}
+
+/* ── LAYOUT ── */
+.lay{display:flex;min-height:calc(100vh - 56px)}
+.sb{width:224px;flex-shrink:0;background:var(--surf);border-right:1px solid var(--g200);padding:1rem 0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto}
+.sb-sec{padding:0 .75rem;margin-bottom:1.25rem}
+.sb-lbl{font-size:9px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--g400);padding:0 .5rem;margin-bottom:.4rem}
+.si{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;font-size:12px;font-weight:600;color:var(--g600);cursor:pointer;transition:all .12s;margin-bottom:1px}
+.si:hover{background:var(--g100);color:var(--g900)}
+.si.on{background:var(--blue-ll);color:var(--blue)}
+.si-ic{width:15px;flex-shrink:0;display:flex;align-items:center}
+.si-bdg{margin-left:auto;font-size:10px;font-weight:700;background:var(--red-l);color:var(--red);border-radius:10px;padding:1px 6px}
+.main{flex:1;padding:1.75rem;min-width:0}
+.ph{margin-bottom:1.5rem}
+.pt{font-size:21px;font-weight:800;letter-spacing:-.04em;color:var(--g900)}
+.ps{font-size:12px;color:var(--g500);margin-top:3px}
+
+/* ── CARDS ── */
+.card{background:var(--surf);border:1px solid var(--g200);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;margin-bottom:16px}
+.ch{padding:.9rem 1.25rem;border-bottom:1px solid var(--g200);display:flex;align-items:center;gap:8px}
+.ct{font-size:13px;font-weight:700;color:var(--g900);flex:1;letter-spacing:-.01em}
+.cb{padding:1.25rem}
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:1.5rem}
+.sc{background:var(--surf);border:1px solid var(--g200);border-radius:var(--r);padding:1.1rem 1.25rem;box-shadow:var(--sh)}
+.sc.pr{background:linear-gradient(135deg,var(--navy),#1a3a6b);border-color:transparent}
+.sc.pr .scl,.sc.pr .scs{color:rgba(255,255,255,.5)}
+.sc.pr .scv{color:#fff}
+.scl{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--g500);margin-bottom:.4rem}
+.scv{font-size:26px;font-weight:800;letter-spacing:-.05em;color:var(--g900);line-height:1}
+.scs{font-size:11px;color:var(--g400);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ── TABLE ── */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{font-size:9px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--g500);padding:.6rem 1rem;text-align:left;background:var(--g50);border-bottom:1px solid var(--g200)}
+.tbl td{padding:.8rem 1rem;border-bottom:1px solid var(--g100);font-size:12px;color:var(--g800)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tbody tr:hover td{background:var(--blue-ll)}
+
+/* ── BADGE ── */
+.bdg{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;border-radius:20px;padding:3px 9px}
+.bdg::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
+.b-green{background:var(--green-l);color:var(--green)}
+.b-amber{background:var(--amber-l);color:var(--amber)}
+.b-red{background:var(--red-l);color:var(--red)}
+.b-blue{background:var(--blue-l);color:var(--blue)}
+.b-gray{background:var(--g100);color:var(--g600);border:1px solid var(--g200)}
+.b-teal{background:var(--teal-l);color:var(--teal)}
+
+/* ── PROGRESS ── */
+.prog{height:5px;background:var(--g200);border-radius:3px;overflow:hidden}
+.pf{height:100%;border-radius:3px;transition:width .3s}
+
+/* ── BUTTONS ── */
+.btn{font-family:inherit;font-size:12px;font-weight:700;padding:7px 14px;border-radius:7px;border:none;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:5px;letter-spacing:-.01em}
+.btn-sm{padding:5px 10px;font-size:11px}
+.btn-navy{background:var(--navy);color:#fff}.btn-navy:hover{background:var(--navy2)}
+.btn-blue{background:var(--blue);color:#fff}.btn-blue:hover{background:var(--navy)}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{opacity:.9}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{opacity:.9}
+.btn-ghost{background:transparent;color:var(--g600);border:1px solid var(--g200)}.btn-ghost:hover{background:var(--g100)}
+
+/* ── HEAT MAP ── */
+.ht{width:100%;border-collapse:collapse;font-size:11px}
+.ht th{padding:5px 5px;color:var(--g400);font-weight:700;font-size:9px;letter-spacing:.06em;text-transform:uppercase;text-align:center;white-space:nowrap}
+.ht th:first-child{text-align:left;min-width:130px}
+.ht td{padding:4px 5px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;border-radius:4px;min-width:24px}
+.ht tr td:first-child{text-align:left;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;color:var(--g700);font-weight:600;padding-right:8px}
+.h0{background:#fee2e2;color:#991b1b}.h1{background:#fecaca;color:#991b1b}
+.h2{background:#fef9c3;color:#713f12}.h3{background:#d1fae5;color:#065f46}
+.h4{background:#6ee7b7;color:#064e3b}.h5{background:#059669;color:#fff}
+.hna{background:var(--g100);color:var(--g400);font-size:9px}
+
+/* ── ASSESSMENT ── */
+.aw{display:grid;grid-template-columns:205px 1fr;gap:18px;align-items:start}
+.asn{background:var(--surf);border:1px solid var(--g200);border-radius:var(--r);padding:.75rem;position:sticky;top:72px;box-shadow:var(--sh)}
+.asn-title{font-size:9px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--g400);margin-bottom:.5rem;padding:0 4px}
+.asn-item{display:flex;align-items:center;gap:7px;padding:7px 8px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;color:var(--g600);transition:all .12s;margin-bottom:2px}
+.asn-item:hover{background:var(--g100)}
+.asn-item.act{background:var(--blue-ll);color:var(--blue)}
+.asn-item.done{color:var(--green)}
+.asn-ck{width:14px;height:14px;border-radius:50%;background:var(--g200);margin-left:auto;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.asn-item.done .asn-ck{background:var(--green)}
+.af{background:var(--surf);border:1px solid var(--g200);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+.af-hdr{padding:1.25rem 1.75rem;border-bottom:1px solid var(--g200);background:linear-gradient(90deg,var(--blue-ll),var(--surf))}
+.af-tag{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;background:var(--navy);color:#fff;border-radius:5px;padding:2px 8px;display:inline-block;margin-bottom:6px}
+.af-name{font-size:16px;font-weight:800;letter-spacing:-.03em;margin-bottom:2px}
+.af-wt{font-size:11px;color:var(--g500)}
+.af-prog-bar{padding:.7rem 1.75rem;border-bottom:1px solid var(--g200);background:var(--g50);display:flex;align-items:center;gap:10px}
+.af-pb{flex:1;height:4px;background:var(--g200);border-radius:2px;overflow:hidden}
+.af-pf{height:100%;background:var(--blue);border-radius:2px;transition:width .3s}
+.af-body{padding:1.75rem}
+.qs{margin-bottom:1.75rem}
+.qs-title{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--g400);padding-bottom:.5rem;border-bottom:1px solid var(--g200);margin-bottom:1rem}
+.qi{margin-bottom:1.25rem}
+.qi-top{display:flex;gap:9px;align-items:flex-start;margin-bottom:.6rem}
+.qtag{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;padding:2px 7px;border-radius:4px;flex-shrink:0;margin-top:2px}
+.qtag.base{background:var(--blue-l);color:var(--blue);border:1px solid #b8d4f8}
+.qtag.dep{background:var(--teal-l);color:var(--teal);border:1px solid #a5f3fc}
+.qlabel{font-size:13px;font-weight:600;color:var(--g900);line-height:1.5;letter-spacing:-.01em}
+.multi-tag{font-size:9px;font-weight:700;color:var(--blue);background:var(--blue-ll);border:1px solid var(--blue-l);border-radius:4px;padding:1px 5px;margin-left:5px}
+.rg{display:flex;flex-direction:column;gap:5px}
+.ro{display:flex;align-items:center;gap:9px;padding:9px 12px;border:1.5px solid var(--g200);border-radius:8px;cursor:pointer;font-size:12px;color:var(--g700);transition:all .12s;font-weight:500}
+.ro:hover{border-color:var(--blue);background:var(--blue-ll)}
+.ro.sel{border-color:var(--blue);background:var(--blue-ll);color:var(--g900);font-weight:600}
+.rc{width:15px;height:15px;border-radius:50%;border:2px solid var(--g300);flex-shrink:0;transition:all .12s;display:flex;align-items:center;justify-content:center}
+.ro.sel .rc{border-color:var(--blue);background:var(--blue)}
+.ro.sel .rc::after{content:'';width:5px;height:5px;border-radius:50%;background:#fff}
+.mw{display:flex;flex-wrap:wrap;gap:7px}
+.mo{padding:7px 13px;border:1.5px solid var(--g200);border-radius:20px;font-size:11px;font-weight:600;color:var(--g600);cursor:pointer;transition:all .12s}
+.mo:hover{border-color:var(--blue);color:var(--blue)}
+.mo.sel{border-color:var(--blue);background:var(--blue);color:#fff}
+.ni{width:72px;padding:7px 9px;text-align:center;border:1.5px solid var(--g200);border-radius:7px;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--g900);outline:none}
+.ni:focus{border-color:var(--blue)}
+.nr{display:flex;align-items:center;gap:10px;padding:6px 0}
+.nl{font-size:12px;color:var(--g700);font-weight:500}
+.pct-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pct-box{background:var(--g50);border:1px solid var(--g200);border-radius:8px;padding:.75rem}
+.pct-lbl{font-size:10px;color:var(--g500);font-weight:600;margin-bottom:5px}
+.pct-in{width:56px;padding:6px 8px;text-align:center;border:1.5px solid var(--g200);border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;color:var(--g900);outline:none}
+.cond-tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--amber);background:var(--amber-l);border-radius:5px;padding:2px 8px;margin-top:5px;font-weight:600}
+.af-footer{padding:1rem 1.75rem;border-top:1px solid var(--g200);background:var(--g50);display:flex;align-items:center;justify-content:space-between}
+.af-autosave{font-size:11px;color:var(--g400)}
+
+/* ── REVIEW ── */
+.rv-hdr{background:var(--navy);padding:1.4rem 1.75rem;display:flex;align-items:flex-start;justify-content:space-between;border-radius:var(--r) var(--r) 0 0}
+.rv-org{font-size:16px;font-weight:800;color:#fff;letter-spacing:-.03em}
+.rv-sub{font-size:11px;color:rgba(255,255,255,.4);margin-top:3px}
+.rv-total{text-align:right}
+.rv-num{font-size:36px;font-weight:800;letter-spacing:-.06em;color:#fff}
+.rv-lbl{font-size:10px;color:rgba(255,255,255,.4)}
+.rv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:1.25rem}
+.rvc{background:var(--g50);border:1px solid var(--g200);border-radius:10px;padding:.9rem}
+.rvc.changed{border-color:#b8d4f8;background:var(--blue-ll)}
+.rvc-code{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--g400);margin-bottom:3px;font-weight:600}
+.rvc-name{font-size:11px;font-weight:700;color:var(--g800);margin-bottom:8px;letter-spacing:-.01em}
+.rvc-row{display:flex;align-items:baseline;gap:4px;margin-bottom:7px}
+.rvc-val{font-size:22px;font-weight:800;color:var(--g900);letter-spacing:-.04em}
+.rvc-max{font-size:11px;color:var(--g400)}
+.sbtns{display:flex;gap:3px}
+.sbtn{width:26px;height:26px;border-radius:5px;border:1px solid var(--g200);background:var(--surf);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;cursor:pointer;color:var(--g600);transition:all .12s}
+.sbtn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+.sbtn.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+/* ── MODAL ── */
+.mbg{position:fixed;inset:0;background:rgba(10,22,40,.55);display:flex;align-items:center;justify-content:center;z-index:500;backdrop-filter:blur(3px)}
+.mbox{background:#fff;border-radius:16px;padding:2rem;width:460px;box-shadow:0 20px 60px rgba(10,22,40,.3);animation:su .3s ease}
+.mbox h3{font-size:17px;font-weight:800;color:var(--g900);margin-bottom:1.5rem;letter-spacing:-.03em}
+
+/* ── LOG ── */
+.log-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--g100)}
+.log-row:last-child{border-bottom:none}
+.log-t{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--g400);white-space:nowrap;margin-top:1px;min-width:70px}
+.log-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.log-txt{font-size:12px;color:var(--g600);line-height:1.5}
+.log-txt strong{color:var(--g900);font-weight:700}
+
+/* ── SCORE MINI ── */
+.sm{display:flex;align-items:center;gap:7px}
+.sm-v{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;width:28px;color:var(--g900)}
+.sm-b{flex:1;height:4px;background:var(--g200);border-radius:2px;overflow:hidden;min-width:50px}
+.sm-f{height:100%;border-radius:2px;background:var(--blue)}
+
+@media print{.topbar,.sb,.af-footer,.btn,.sbtn,.mbox{display:none!important}.main{padding:0}.card{box-shadow:none;border:1px solid #ccc}}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<nav class="topbar" id="topbar" style="display:none">
+  <div class="tb-logo">
+    <div class="tb-logo-box">
+      <svg width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+    </div>
+    <div><div class="tb-logo-name">Rəqəmsal Yetkinlik</div><div class="tb-logo-sub">İDDA · 2026</div></div>
+  </div>
+  <div class="tb-nav" id="tb-nav"></div>
+  <div class="tb-user">
+    <div style="text-align:right"><div class="tb-name" id="t-name"></div><div class="tb-role" id="t-role"></div></div>
+    <div class="tb-av" id="t-av"></div>
+    <button class="tb-out" onclick="doLogout()">
+      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+      Çıxış
+    </button>
+  </div>
+</nav>
+
+<!-- LOGIN -->
+<div class="screen on" id="s-login">
+  <div class="lp">
+    <div class="lp-left">
+      <div class="lp-badge">
+        <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        İDDA · 2026
+      </div>
+      <div class="lp-h">Rəqəmsal<br><span>Yetkinlik</span><br>Platforması</div>
+      <p class="lp-p">Dövlət qurumlarının rəqəmsallaşma səviyyəsinin D1–D12 kriteriyaları üzrə qiymətləndirilməsi üçün vahid platforma.</p>
+    </div>
+    <div class="lp-right">
+      <div class="lcard">
+        <div class="lcard-h">Sistemə daxil ol</div>
+        <div class="lcard-s">İstifadəçi adı və şifrənizi daxil edin.</div>
+        <div class="lerr" id="lerr"></div>
+        <div class="fg"><label class="fl">İstifadəçi adı</label><input class="fi" id="lu" placeholder="istifadeci.adi" autocomplete="username"></div>
+        <div class="fg"><label class="fl">Şifrə</label><input class="fi" type="password" id="lp" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"></div>
+        <button class="lbtn" onclick="login()">Daxil ol</button>
+        <div class="demo-box">
+          <strong>Demo girişlər:</strong>
+          <span class="db" onclick="ql('admin','admin123')">🛡️ Admin</span>
+          <span class="db" onclick="ql('miqrasiya','qurum123')">🏛️ Miqrasiya X.</span>
+          <span class="db" onclick="ql('asan','qurum123')">🏛️ ASAN</span>
+          <span class="db" onclick="ql('vergi','qurum123')">🏛️ Vergi X.</span>
+          <span class="db" onclick="ql('ekspert','exp123')">📊 Ekspert</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="screen" id="s-dash">
+  <div class="lay">
+    <aside class="sb" id="sb-dash"></aside>
+    <main class="main">
+      <div class="ph"><div class="pt">Rəqəmsal Yetkinlik Dashbordu</div><div class="ps" id="dash-ps"></div></div>
+      <div class="sg" id="dash-stats"></div>
+      <div class="card">
+        <div class="ch">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--blue)" stroke-width="2" style="flex-shrink:0"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zM14 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"/></svg>
+          <div class="ct">Heat Map — Kriteriya × Qurum</div>
+          <span class="bdg b-gray" style="font-size:9px">0–1 Kritik · 2–3 İnkişaf · 4–5 Yüksək</span>
+        </div>
+        <div style="overflow-x:auto;padding:1rem" id="heatmap"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="card"><div class="ch"><div class="ct">Qrup üzrə Orta Bal</div></div><div class="cb" id="grp-chart"></div></div>
+        <div class="card"><div class="ch"><div class="ct">Kriteriya üzrə Orta</div></div><div class="cb" id="crit-chart"></div></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- QURUM PANEL -->
+<div class="screen" id="s-qurum">
+  <div class="lay">
+    <aside class="sb" id="sb-qurum"></aside>
+    <main class="main" id="main-qurum"></main>
+  </div>
+</div>
+
+<!-- ASSESSMENT -->
+<div class="screen" id="s-assess">
+  <div class="lay">
+    <aside class="sb" id="sb-assess"></aside>
+    <main class="main">
+      <div class="ph">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+          <div class="pt">Self-Assessment</div>
+          <span class="bdg b-amber" id="assess-badge">Doldurulur</span>
+        </div>
+        <div class="ps" id="assess-org"></div>
+      </div>
+      <div class="aw">
+        <nav class="asn" id="asn"></nav>
+        <div id="af-wrap"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="screen" id="s-admin">
+  <div class="lay">
+    <aside class="sb" id="sb-admin"></aside>
+    <main class="main" id="main-admin"></main>
+  </div>
+</div>
+
+<!-- REVIEW -->
+<div class="screen" id="s-review">
+  <div class="lay">
+    <aside class="sb" id="sb-review"></aside>
+    <main class="main" id="main-review"></main>
+  </div>
+</div>
+
+<!-- REPORTS -->
+<div class="screen" id="s-reports">
+  <div class="lay">
+    <aside class="sb" id="sb-reports"></aside>
+    <main class="main" id="main-reports"></main>
+  </div>
+</div>
+
+<!-- USERS -->
+<div class="screen" id="s-users">
+  <div class="lay">
+    <aside class="sb" id="sb-users"></aside>
+    <main class="main" id="main-users"></main>
+  </div>
+</div>
+
+<!-- AUDIT -->
+<div class="screen" id="s-audit">
+  <div class="lay">
+    <aside class="sb" id="sb-audit"></aside>
+    <main class="main" id="main-audit"></main>
+  </div>
+</div>
+
+<div id="modal"></div>
+
+<script>
+'use strict';
+
+/* ═══════════════════════════════════════
+   DATA STORE
+═══════════════════════════════════════ */
+const DB={
+  get(k){try{return JSON.parse(localStorage.getItem('ry2_'+k)||'null')}catch{return null}},
+  set(k,v){localStorage.setItem('ry2_'+k,JSON.stringify(v))},
+};
+
+/* ═══════════════════════════════════════
+   CRITERIA
+═══════════════════════════════════════ */
+const CRIT=[
+  {code:'D1',name:'İdarəetmə',w:.09},
+  {code:'D2',name:'Strategiya',w:.10},
+  {code:'D3',name:'Büdcə Ayrılması',w:.07},
+  {code:'D4',name:'İst. Xidmətlər',w:.13},
+  {code:'D5',name:'Məlumat Mədəniyyəti',w:.08},
+  {code:'D6',name:'G-Cloud',w:.05},
+  {code:'D7',name:'EHİS',w:.05},
+  {code:'D8',name:'İnfrastruktur',w:.08},
+  {code:'D9',name:'Süni İntellekt',w:.09},
+  {code:'D10',name:'Rəq. Komanda',w:.09},
+  {code:'D11',name:'Daxili Proseslər',w:.09},
+  {code:'D12',name:'Təhlükəsizlik',w:.08},
+];
+
+/* ═══════════════════════════════════════
+   QUESTIONS  (simplified for reliability)
+═══════════════════════════════════════ */
+const QS={
+  D1:[
+    {c:'S1',t:'radio',q:'Qurumunuzda rəqəmsal sahəyə rəhbərlik edən müəyyən edilmiş şəxs varmı?',o:['Bəli, rəsmi vəzifəsi var','Bəli, faktiki məsul şəxs var','Xeyr']},
+    {c:'S2',t:'radio',q:'Rəqəmsal sahə üzrə ayrıca struktur bölmə mövcuddurmu?',o:['Bəli, ayrıca şöbə','Bəli, İT ilə birlikdə','Tabeli rəqəmsal mərkəz var','Xeyr'],dep:{f:'S1',not:'Xeyr'}},
+    {c:'S3',t:'radio',q:'Vəzifə CDTO/CIO səviyyəsindədir?',o:['Bəli, CDTO/CIO','İT direktoru/müdir','Daha aşağı vəzifə'],dep:{f:'S1',is:'Bəli, rəsmi vəzifəsi var'}},
+    {c:'S4',t:'radio',q:'Formal komitə, iş qrupu mövcuddurmu?',o:['Bəli, aktiv','Formalaşır','Xeyr'],dep:{f:'S3',is:'Bəli, CDTO/CIO'}},
+    {c:'S5',t:'radio',q:'İctimai açıqlamalar müntəzəm həyata keçirilirmi?',o:['Bəli, müntəzəm','Bəzən','Xeyr'],dep:{f:'S1',not:'Xeyr'}},
+    {c:'S6',t:'radio',q:'Açıq hesabatlar və KPI-lər ictimaiyyətə açıqlanırmı?',o:['Bəli, açıq hesabatlar','Qismən','Xeyr'],dep:{f:'S5',is:'Bəli, müntəzəm'}},
+    {c:'S7',t:'radio',q:'CDTO/CIO beynəlxalq konfranslarda qurumu təmsil edirmi?',o:['Bəli, hər ikisi','Yalnız konfranslar','Xeyr'],dep:{f:'S6',is:'Bəli, açıq hesabatlar'}},
+  ],
+  D2:[
+    {c:'S1',t:'radio',q:'Rəqəmsal inkişaf strategiyası mövcuddurmu?',o:['Bəli, rəsmi təsdiqlənmiş','Bəli, lakin rəsmi deyil','Hazırlanır','Xeyr']},
+    {c:'S2',t:'radio',q:'Sənəd ictimaiyyətə açıqdırmı?',o:['Bəli, açıq paylaşılıb','Daxili istifadə üçündür','Xeyr'],dep:{f:'S1',not:'Xeyr'}},
+    {c:'S3',t:'radio',q:'Strategiyada ölçülə bilən KPI-lər var?',o:['Bəli, konkret KPI-lər','Ümumi hədəflər var','Xeyr'],dep:{f:'S1',not:'Xeyr'}},
+    {c:'S4',t:'radio',q:'Yıllık monitorinq aparılır?',o:['Bəli, müntəzəm','Bəzən','Xeyr'],dep:{f:'S3',is:'Bəli, konkret KPI-lər'}},
+    {c:'S5',t:'radio',q:'İllik icra hesabatları açıq paylaşılırmı?',o:['Bəli, açıq paylaşılır','Hazırlanır, daxili','Xeyr'],dep:{f:'S4',is:'Bəli, müntəzəm'}},
+    {c:'S6',t:'radio',q:'Beynəlxalq çərçivələrə (DESI, UN e-Gov) uyğunlaşdırılıb?',o:['Bəli, açıq istinad edilir','Qismən','Xeyr'],dep:{f:'S5',is:'Bəli, açıq paylaşılır'}},
+    {c:'S7',t:'radio',q:'Real vaxt KPI dashboard var? İctimaiyyətə açıqdır?',o:['Bəli, açıq dashboard','Daxili dashboard','Xeyr'],dep:{f:'S6',is:'Bəli, açıq istinad edilir'}},
+  ],
+  D3:[
+    {c:'S1',t:'radio',q:'Son 3 ildə İKT sahəsində satınalma həyata keçirilmişdir?',o:['Bəli, müntəzəm','Bəli, birdəfəlik','Xeyr']},
+    {c:'S2',t:'multi',q:'Satınalmalar hansı istiqamətdədir?',o:['Avadanlıq','Proqram / sistem inkişafı','Bulud abunəliyi','Lisenziya alışı'],dep:{f:'S1',not:'Xeyr'}},
+    {c:'S3',t:'radio',q:'İKT xərcləri büdcədə ayrıca maddə kimi göstərilirmi?',o:['Bəli, ayrıca kateqoriya','Dolayı müəyyən edilir','Xeyr'],dep:{f:'S1',not:'Xeyr'}},
+    {c:'S4',t:'radio',q:'İKT investisiyalarının büdcədə payı müəyyən edilə bilirmi?',o:['Bəli, dəqiq faiz bəllidir','Təxminən müəyyən edilir','Xeyr'],dep:{f:'S3',is:'Bəli, ayrıca kateqoriya'}},
+    {c:'S5',t:'radio',q:'Çoxillik (2+ il) İKT müqavilələri mövcuddurmu?',o:['Bəli','Xeyr, yalnız illik'],dep:{f:'S3',is:'Bəli, ayrıca kateqoriya'}},
+    {c:'S6',t:'radio',q:'Rəqəmsal transformasiya üçün ayrıca büdcə xətti var?',o:['Bəli, ayrıca büdcə','Ümumi İKT büdcəsinə daxildir','Xeyr'],dep:{f:'S4',not:'Xeyr'}},
+    {c:'S7',t:'radio',q:'Nəticə əsaslı yanaşma (ROI) tətbiq olunurmu?',o:['Bəli, sistemli','Qismən','Xeyr'],dep:{f:'S6',is:'Bəli, ayrıca büdcə'}},
+  ],
+  D4:[
+    {c:'S1',t:'radio',q:'Qurum vətəndaşlara / hüquqi şəxslərə birbaşa xidmət göstərirmi?',o:['Bəli','Xeyr']},
+    {c:'S2a',t:'radio',q:'Xidmətlərin neçə faizi dxr.az-da qeydə alınıb?',o:['Heç biri (0%)','Az hissəsi (1–20%)','Yarısına qədər (20–60%)','Böyük hissəsi (60–85%)','Demək olar hamısı (85–100%)'],dep:{f:'S1',is:'Bəli'}},
+    {c:'S2b_online',t:'num',q:'Onlayn (elektron) xidmət sayı:',dep:{f:'S1',is:'Bəli'}},
+    {c:'S2b_fiziki',t:'num',q:'Fiziki xidmət sayı:',dep:{f:'S1',is:'Bəli'}},
+    {c:'S3a',t:'pct3',q:'Rəqəmsallaşma səviyyəsi üzrə faiz bölgüsü (cəmi 100%):',labels:['Tam end-to-end','Müraciət rəqəmsal','Yalnız informativ'],keys:['ete','mur','inf'],dep:{f:'S2b_online',gt:0}},
+    {c:'S3b',t:'nums',q:'Xidmət növü üzrə saylar:',labels:['İnteraktiv','İnformativ','Proaktiv'],keys:['int','inf','pro'],dep:{f:'S2b_online',gt:0}},
+    {c:'S4_web',t:'num',q:'MyGov veb-də xidmət sayı:',dep:{f:'S2b_online',gt:0}},
+    {c:'S4_both',t:'num',q:'Həm MyGov veb, həm mobil-də olan xidmət sayı:',dep:{f:'S2b_online',gt:0}},
+    {c:'S4_mob',t:'num',q:'Yalnız MyGov mobil-də xidmət sayı:',dep:{f:'S2b_online',gt:0}},
+    {c:'S4_none',t:'radio',q:'',o:['MyGov-da (nə veb, nə mobil) xidmət təqdim edilmir'],dep:{f:'S2b_online',gt:0}},
+    {c:'S5',t:'radio',q:'Xidmətlər müyəssərlik standartlarına uyğundur?',o:['Bəli, tam uyğun','Qismən','Xeyr'],dep:{f:'S4_web',gt:0}},
+    {c:'S6',t:'multi',q:'Proaktiv bildiriş göndərilirmi?',o:['SMS','Email','MyGov kabineti','Xeyr, bildiriş yoxdur'],dep:{f:'S2b_online',gt:0}},
+    {c:'S7',t:'radio',q:'Xidmətlər başqa dövlət platformalarında göstərilirmi?',o:['Bəli','Xeyr'],dep:{f:'S2b_online',gt:0}},
+    {c:'S8',t:'radio',q:'Xidmətlər açıq API-lər vasitəsilə üçüncü tərəflərə açıqdırmı?',o:['Bəli, açıq API-lər mövcuddur','Bu sahədə işlər gedir','Hüquqi baxımdan uyğun deyil','Hüquqi uyğundur, texniki mövcud deyil'],dep:{f:'S2b_online',gt:0}},
+  ],
+  D5:[
+    {c:'S1',t:'radio',q:'Qurum statistik məlumat, dataset toplayır/emal edirmi?',o:['Bəli, sistemli','Bəli, qeyri-sistemli','Xeyr']},
+    {c:'S2',t:'radio',q:'Məlumatlar opendata.az-da paylaşılırmı?',o:['Bəli, opendata.az-da aktivdir','Bəli, lakin köhnədir','Yalnız saytda PDF','Xeyr'],dep:{f:'S1',not:'Xeyr'}},
+    {c:'S3',t:'radio',q:'Açıq məlumatların formatı?',o:['Maşınoxunan (CSV, JSON, XML)','Qarışıq','Yalnız PDF / Excel'],dep:{f:'S2',is:'Bəli, opendata.az-da aktivdir'}},
+    {c:'S4',t:'radio',q:'Data governance üzrə rəsmi siyasət var?',o:['Bəli, tam formalaşdırılmış','Qismən','Xeyr'],dep:{f:'S1',not:'Xeyr'}},
+    {c:'S5',t:'radio',q:'Data sahibliyi, məsuliyyət, keyfiyyət standartları müəyyənləşdirilib?',o:['Bəli, hər üçü','Qismən','Xeyr'],dep:{f:'S4',is:'Bəli, tam formalaşdırılmış'}},
+    {c:'S6',t:'radio',q:'Məlumatlar API vasitəsilə əldə edilə bilirmi?',o:['Bəli, açıq API','Bəli, icazə tələb olunur','Xeyr'],dep:{f:'S3',is:'Maşınoxunan (CSV, JSON, XML)'}},
+    {c:'S7',t:'radio',q:'Qurum data əsaslı qərarverməni tətbiq edir?',o:['Bəli, açıq paylaşılır','Bəli, daxili istifadə','Qismən','Xeyr'],dep:{f:'S6',not:'Xeyr'}},
+  ],
+  D6:[
+    {c:'S2',t:'radio',q:'Sistemlərin hansı hissəsi G-Cloud-a köçürülüb?',o:['100% — tam köçürülüb','50–80% — böyük hissəsi','≤20% — kiçik hissəsi','Hazırlanır','Heç biri']},
+    {c:'S3',t:'radio',q:'Paralel fiziki server alışı davam edirmi?',o:['Xeyr, tamamilə dayandırılıb','Azalmış davam edir','Bəli, hələ davam edir'],dep:{f:'S2',not:'Heç biri'}},
+    {c:'S4',t:'radio',q:'Sistemlər ehtiyat mərkəzində yerləşdirilib?',o:['Bəli, tam konfiqurasiya edilib','Qismən','Xeyr'],dep:{f:'S2',in:['100% — tam köçürülüb','50–80% — böyük hissəsi']}},
+    {c:'S6a',t:'radio',q:'Arxitektura cloud-native yanaşması ilə qurulmuşdur?',o:['Bəli, tam','Qismən','Xeyr'],dep:{f:'S2',is:'100% — tam köçürülüb'}},
+    {c:'S6b',t:'radio',q:'Yüksək əlçatanlıq (high availability) təmin edilirmi?',o:['Bəli, hər ikisi','Qismən','Xeyr'],dep:{f:'S2',is:'100% — tam köçürülüb'}},
+  ],
+  D7:[
+    {c:'S1',t:'multi',q:'Xidmətlərə giriş üçün hansı autentifikasiya vasitəsi istifadə olunur?',o:['MyGovID','Yalnız Asan İmza','Quruma məxsus elektron imza','Heç biri (açıq giriş)']},
+    {c:'S2',t:'radio',q:'Girişdə texniki problemlər baş verirmi?',o:['Xeyr, sabit işləyir','Bəzən problemlər olur','Tez-tez problemlər var'],dep:{f:'S1',notEmpty:true}},
+    {c:'S3',t:'radio',q:'G2G məlumat mübadiləsi EHİS/Digital Bridge vasitəsilə həyata keçirilirmi?',o:['Bəli, tam EHİS/Digital Bridge üzərindən','Qismən Bridge, qismən birbaşa','Xeyr, birbaşa mübadilə','G2G mübadilə tələb olunmur']},
+    {c:'S4',t:'radio',q:'G2G məlumat mübadiləsi avtomatlaşdırılmışdır?',o:['Bəli, tam avtomatik','Qismən avtomatik','Manual proses'],dep:{f:'S3',not:'G2G mübadilə tələb olunmur'}},
+    {c:'S5',t:'radio',q:'Biznes subyektləri ilə G2B rəqəmsal məlumat mübadiləsi?',o:['Digital Finance platforması','Birbaşa API inteqrasiyası','Hər ikisi','Xeyr, G2B inteqrasiya yoxdur']},
+    {c:'S6',t:'radio',q:'"Once-only" prinsipi tətbiq edilirmi?',o:['Bəli, tam həyata keçirilib','Qismən','Xeyr'],dep:{f:'S3',is:'Bəli, tam EHİS/Digital Bridge üzərindən'}},
+    {c:'S7',t:'radio',q:'EHİS inteqrasiyasının əhatə dairəsi?',o:['Bütün əsas məlumatlar EHİS-dən gəlir','Bir hissəsi EHİS-dən','Yalnız şəxsiyyət doğrulaması'],dep:{f:'S6',not:'Xeyr'}},
+  ],
+  D8:[
+    {c:'S1',t:'radio',q:'Veb sayt sabit şəkildə işləyirmi?',o:['Bəli, daima işləkdir (≥99%)','Bəzən kəsintilər (95–99%)','Tez-tez işləmir (<95%)']},
+    {c:'S2',t:'radio',q:'Sayt HTTPS ilə qorunurmu?',o:['Bəli, A+ (SSL Labs)','Bəli, A səviyyəsi','Bəli, lakin zəif (B/C)','Xeyr, HTTP ilə işləyir']},
+    {c:'S3',t:'radio',q:'Sayt mobil cihazlara uyğunlaşdırılmışdır?',o:['Bəli, tam responsive','Qismən','Xeyr'],dep:{f:'S2',not:'Xeyr, HTTP ilə işləyir'}},
+    {c:'S5a',t:'radio',q:'Server otağı / texniki otaq mövcuddurmu?',o:['Bəli','Xeyr']},
+    {c:'S5b',t:'radio',q:'Texniki otaqda soyutma, UPS/generator var?',o:['Bəli, standartlara uyğun','Bəli, lakin qeyri-standart','Xeyr'],dep:{f:'S5a',is:'Bəli'}},
+    {c:'S6a',t:'radio',q:'Disaster Recovery planı mövcuddur?',o:['Bəli, test edilib','Bəli, test edilməyib','Xeyr'],dep:{f:'S5b',not:'Xeyr'}},
+    {c:'S6b',t:'radio',q:'Ehtiyat nüsxələr (backup) mütəmadi alınır? RTO/RPO müəyyən edilib?',o:['Bəli, hər ikisi','Yalnız backup alınır','Xeyr'],dep:{f:'S6a',not:'Xeyr'}},
+    {c:'S7a',t:'radio',q:'İnfrastruktur real vaxt monitorinq edilir?',o:['Bəli, avtomatik xəbərdarlıq','Bəli, manual','Xeyr'],dep:{f:'S6b',not:'Xeyr'}},
+    {c:'S7b',t:'radio',q:'İstifadəçilər kəsintilər barədə onlayn məlumat ala bilirmi?',o:['Bəli, açıq status səhifəsi var','Xeyr'],dep:{f:'S7a',is:'Bəli, avtomatik xəbərdarlıq'}},
+  ],
+  D9:[
+    {c:'S1',t:'radio',q:'Qurumda hazırda istifadə olunan SI/ML tətbiqi var?',o:['Bəli, istismar rejimindədir','Pilot mərhələdədir','Xeyr, planlaşdırılır','Xeyr']},
+    {c:'S2',t:'multi',q:'SI tətbiqləri hansı sahəni əhatə edir?',o:['Sənəd emalı','Chatbot / virtual köməkçi','Proqnozlaşdırma','Anomaliya aşkarlanması','Qərar dəstəyi'],dep:{f:'S1',not:'Xeyr'}},
+    {c:'S3',t:'radio',q:'Neçə SI tətbiqi aktiv istismar mühitindədir?',o:['4 və daha çox','2–3 tətbiq','1 tətbiq'],dep:{f:'S1',is:'Bəli, istismar rejimindədir'}},
+    {c:'S4',t:'radio',q:'SI üzrə ixtisaslaşmış kadrlar var?',o:['Bəli, ayrıca komanda','Bəli, 1–2 nəfər','Xeyr, kənar şirkətlər'],dep:{f:'S3',not:'1 tətbiq'}},
+    {c:'S5',t:'radio',q:'SI strategiyası? Universitetlər/startaplarla əməkdaşlıq?',o:['Hər ikisi var','Yalnız strategiya','Yalnız əməkdaşlıq','Xeyr'],dep:{f:'S4',not:'Xeyr, kənar şirkətlər'}},
+    {c:'S6',t:'radio',q:'SI nəticələri ölçülür? Etik SI çərçivəsi tətbiq olunur?',o:['Bəli, hər ikisi','Yalnız hesabatlılıq','Yalnız etik çərçivə','Xeyr'],dep:{f:'S5',not:'Xeyr'}},
+  ],
+  D10:[
+    {c:'S1',t:'radio',q:'Qurumda İT / rəqəmsal sahə üzrə xüsusi bölmə var?',o:['Bəli, ayrıca şöbə var','Tabeli rəqəmsal mərkəz var','Bəli, 1–2 nəfər','Xeyr, kənar şirkətə verilir']},
+    {c:'S2a',t:'num',q:'Şöbə üzrə daxili işçi sayı:',dep:{f:'S1',is:'Bəli, ayrıca şöbə var'}},
+    {c:'S2b',t:'num',q:'Vendor (kənar şirkət) işçi sayı:',dep:{f:'S1',is:'Bəli, ayrıca şöbə var'}},
+    {c:'S2c',t:'num',q:'Tabeli rəqəmsal mərkəz işçi sayı:',dep:{f:'S1',is:'Tabeli rəqəmsal mərkəz var'}},
+    {c:'S3',t:'radio',q:'İT üzrə rəhbər vəzifə mövcuddur?',o:['Bəli, CDTO/CIO səviyyəsi','Bəli, İT müdiri','Formalaşır','Xeyr'],dep:{f:'S1',not:'Xeyr, kənar şirkətə verilir'}},
+    {c:'S4',t:'multi',q:'Komandada hansı ixtisaslar mövcuddur?',o:['Şəbəkə/sistem','Proqram inkişafı','Kibertəhlükəsizlik','Data analitika','DevOps','Bulud','SI/ML','Məhsul menecmenti'],dep:{f:'S3',not:'Xeyr'}},
+    {c:'S5',t:'radio',q:'Beynəlxalq sertifikatlar (AWS, Azure, CISSP) var?',o:['Bəli, bir neçə nəfər','Bəli, 1 nəfər','Xeyr'],dep:{f:'S4',minSel:3}},
+    {c:'S6a',t:'radio',q:'Agile, Scrum, DevOps metodologiyaları tətbiq edilirmi?',o:['Bəli','Xeyr'],dep:{f:'S5',not:'Xeyr'}},
+    {c:'S6b',t:'radio',q:'Komanda üzrə uzunmüddətli inkişaf planı var?',o:['Bəli, rəsmi plan','Qeyri-formal mövcuddur','Xeyr'],dep:{f:'S5',not:'Xeyr'}},
+  ],
+  D11:[
+    {c:'S1',t:'radio',q:'Daxili proseslər (hesabat, əmr, ərizə, maliyyə) necə həyata keçirilir?',o:['Tam rəqəmsal — ERP ilə','Qismən rəqəmsal','Yalnız ESD üzrə müraciətlər','Əsasən kağız']},
+    {c:'S2',t:'radio',q:'Elektron imza tətbiq olunur?',o:['Hər ikisi (SIMA + Asan İmza)','Yalnız SIMA','Yalnız Asan İmza','Tətbiq olunmur']},
+    {c:'S3',t:'radio',q:'Daxili proseslərin neçə faizi tam rəqəmsal?',o:['80–100%','60–80%','40–60%','40%-dən az'],dep:{f:'S1',not:'Əsasən kağız'}},
+    {c:'S4',t:'radio',q:'Proseslərin icra vəziyyəti izlənilirmi?',o:['Bəli, real vaxt dashboard','Bəli, manual','Xeyr'],dep:{f:'S2',not:'Tətbiq olunmur'}},
+    {c:'S5',t:'radio',q:'ESD sistemi Rəqəmsal Sənəd Dövriyyəsi altsisteminə inteqrasiya edilib?',o:['Bəli, tam inteqrasiya','Qismən','Xeyr'],dep:{f:'S1',not:'Əsasən kağız'}},
+    {c:'S7a',t:'radio',q:'Daxili proseslərdə BPM sistemi tətbiq olunur?',o:['Bəli, tam tətbiq olunub','Qismən / pilot','Xeyr'],dep:{f:'S3',is:'80–100%'}},
+    {c:'S7b',t:'radio',q:'Bütün əsas proseslərin real vaxt dashboard monitorinqi var?',o:['Bəli, tam','Qismən','Xeyr'],dep:{f:'S7a',is:'Bəli, tam tətbiq olunub'}},
+  ],
+  D12:[
+    {c:'S1',t:'radio',q:'Kibertəhlükəsizlik üzrə ayrıca bölmə var?',o:['Bəli, ayrıca şöbə/idarə','Bəli, İT şöbəsi daxilindədir','Xeyr']},
+    {c:'S2',t:'radio',q:'Kibertəhlükəsizlik üzrə məsul şəxs (CISO) müəyyən edilib?',o:['Bəli, rəsmi vəzifəsi var (CISO)','Bəli, faktiki məsul şəxs','Xeyr'],dep:{f:'S1',not:'Xeyr'}},
+    {c:'S3',t:'radio',q:'Rəsmi kibertəhlükəsizlik siyasəti sənədi var?',o:['Bəli, açıq dərc edilib','Bəli, daxili sənəd','Xeyr'],dep:{f:'S2',not:'Xeyr'}},
+    {c:'S4a',t:'radio',q:'İS XRİTDX tərəfindən yoxlanış üçün göndərilib?',o:['Bəli, nəticə alınıb','Bəli, gözlənilir','Xeyr'],dep:{f:'S3',not:'Xeyr'}},
+    {c:'S4b',t:'radio',q:'Incident Response Plan müəyyənləşdirilib?',o:['Bəli, test edilib','Bəli, test edilməyib','Xeyr'],dep:{f:'S3',not:'Xeyr'}},
+    {c:'S5',t:'radio',q:'ISO/IEC 27001 və ya ekvivalent standarta uyğunluq var?',o:['Bəli, sertifikat var','Hazırlanır','Xeyr'],dep:{f:'S4a',is:'Bəli, nəticə alınıb'}},
+    {c:'S6a',t:'radio',q:'SOC (Security Operations Center) fəaliyyət göstərirmi?',o:['Bəli, 24/7 aktiv SOC','Bəli, iş saatları ərzində','Xeyr'],dep:{f:'S5',is:'Bəli, sertifikat var'}},
+    {c:'S6b',t:'radio',q:'Sızma testi (penetration testing) mütəmadi keçirilirmi?',o:['Bəli, ildə 1+ dəfə','Bəli, lakin müntəzəm deyil','Xeyr'],dep:{f:'S5',is:'Bəli, sertifikat var'}},
+    {c:'S7a',t:'radio',q:'Zero Trust arxitekturası tətbiq olunurmu?',o:['Bəli, tam tətbiq olunub','Bəzi elementlər tətbiq olunub','Xeyr'],dep:{f:'S6a',not:'Xeyr'}},
+    {c:'S7b',t:'radio',q:'İnfrastruktur kibertəhlükəsizlik monitorinqi real vaxt rejimindədir?',o:['Bəli, tam avtomatik','Bəli, manual izlənilir','Xeyr'],dep:{f:'S6b',not:'Xeyr'}},
+    {c:'S7c',t:'radio',q:'Avtomatik xəbərdarlıq sistemi kibertəhlükəsizlik hadisələrini bildirir?',o:['Bəli, konfiqurasiya edilib','Qismən','Xeyr'],dep:{f:'S7b',is:'Bəli, tam avtomatik'}},
+  ],
+};
+
+/* ═══════════════════════════════════════
+   SCORE CALCULATOR
+═══════════════════════════════════════ */
+function calcScore(code, answers){
+  // Helper: get answer value for a question in this criterion
+  function v(qcode){
+    const key = code+'_'+qcode;
+    const a = answers[key];
+    if(!a) return '';
+    return a.v || '';
+  }
+  function n(qcode){
+    const key = code+'_'+qcode;
+    const a = answers[key];
+    if(!a) return 0;
+    return parseFloat(a.n||0)||0;
+  }
+  function sel(qcode){
+    const key = code+'_'+qcode;
+    const a = answers[key];
+    if(!a) return [];
+    return a.s||[];
+  }
+
+  let s=0;
+  switch(code){
+    case'D1':
+      if(v('S1')==='Xeyr') return 0;
+      s = v('S1')==='Bəli, rəsmi vəzifəsi var'?2:1;
+      if(['Bəli, ayrıca şöbə','Tabeli rəqəmsal mərkəz var'].includes(v('S2'))) s+=(v('S2')==='Bəli, ayrıca şöbə'?1:.5);
+      if(v('S3')==='Bəli, CDTO/CIO') s+=.5;
+      if(v('S4')==='Bəli, aktiv') s+=.5;
+      if(v('S7')==='Bəli, hər ikisi') s+=.5;
+      break;
+    case'D2':
+      if(v('S1')==='Xeyr') return 0;
+      if(v('S1')==='Hazırlanır') return 1;
+      s = v('S1')==='Bəli, rəsmi təsdiqlənmiş'?2:1.5;
+      if(v('S2')==='Bəli, açıq paylaşılıb') s+=.5;
+      if(v('S3')==='Bəli, konkret KPI-lər') s+=.5;
+      if(v('S4')==='Bəli, müntəzəm') s+=.5;
+      if(v('S5')==='Bəli, açıq paylaşılır') s+=.5;
+      if(v('S7')==='Bəli, açıq dashboard') s+=.5;
+      break;
+    case'D3':
+      if(v('S1')==='Xeyr') return 0;
+      s = v('S1')==='Bəli, müntəzəm'?2:1.5;
+      if(v('S3')==='Bəli, ayrıca kateqoriya') s+=.5;
+      if(v('S4')==='Bəli, dəqiq faiz bəllidir') s+=.5;
+      if(v('S6')==='Bəli, ayrıca büdcə') s+=.5;
+      if(v('S7')==='Bəli, sistemli') s+=.5;
+      break;
+    case'D4':
+      if(v('S1')!=='Bəli') return 0;
+      if(!n('S2b_online')) return .5;
+      s=1;
+      if(v('S2a')==='Demək olar hamısı (85–100%)') s+=.5;
+      else if(v('S2a')==='Böyük hissəsi (60–85%)') s+=.25;
+      const ete=n('S3a_ete');
+      if(ete>=75) s+=1; else if(ete>=50) s+=.75; else if(ete>=25) s+=.5; else s+=.25;
+      if(n('S4_web')+n('S4_both')+n('S4_mob')>0) s+=.5;
+      const sl6=sel('S6');
+      if(sl6.length>=3) s+=.5; else if(sl6.length>=1) s+=.25;
+      if(v('S8')==='Bəli, açıq API-lər mövcuddur') s+=.5;
+      break;
+    case'D5':
+      if(v('S1')==='Xeyr') return 0;
+      s = v('S1')==='Bəli, sistemli'?1.5:1;
+      if(v('S2')==='Bəli, opendata.az-da aktivdir') s+=1;
+      else if(v('S2')==='Bəli, lakin köhnədir') s+=.5;
+      if(v('S3')==='Maşınoxunan (CSV, JSON, XML)') s+=.5;
+      if(v('S4')==='Bəli, tam formalaşdırılmış') s+=.5;
+      if(v('S5')==='Bəli, hər üçü') s+=.5;
+      if(v('S6')==='Bəli, açıq API') s+=.5;
+      if(v('S7')==='Bəli, açıq paylaşılır') s+=.5;
+      break;
+    case'D6':
+      if(v('S2')==='Heç biri') return 0;
+      if(v('S2')==='Hazırlanır') return 1;
+      s = v('S2')==='100% — tam köçürülüb'?3:v('S2')==='50–80% — böyük hissəsi'?2:1;
+      if(v('S3')==='Xeyr, tamamilə dayandırılıb') s+=.5;
+      if(v('S4')==='Bəli, tam konfiqurasiya edilib') s+=.5;
+      if(v('S6a')==='Bəli, tam') s+=.5;
+      if(v('S6b')==='Bəli, hər ikisi') s+=.5;
+      break;
+    case'D7':
+      const s7sel=sel('S1');
+      if(!s7sel.length||s7sel.includes('Heç biri (açıq giriş)')) return 0;
+      s=1;
+      if(s7sel.includes('MyGovID')) s+=.5;
+      if(v('S3')==='Bəli, tam EHİS/Digital Bridge üzərindən') s+=1.5;
+      else if(v('S3')==='Qismən Bridge, qismən birbaşa') s+=.75;
+      if(v('S4')==='Bəli, tam avtomatik') s+=.5;
+      if(v('S6')==='Bəli, tam həyata keçirilib') s+=.5;
+      if(v('S7')==='Bütün əsas məlumatlar EHİS-dən gəlir') s+=.25;
+      break;
+    case'D8':
+      if(v('S2')==='Xeyr, HTTP ilə işləyir') return .5;
+      s = v('S2')==='Bəli, A+ (SSL Labs)'?1.5:v('S2')==='Bəli, A səviyyəsi'?1:.5;
+      if(v('S1')==='Bəli, daima işləkdir (≥99%)') s+=.5;
+      if(v('S3')==='Bəli, tam responsive') s+=.5;
+      if(v('S5b')==='Bəli, standartlara uyğun') s+=.25;
+      if(v('S6a')==='Bəli, test edilib') s+=.5;
+      else if(v('S6a')==='Bəli, test edilməyib') s+=.25;
+      if(v('S6b')==='Bəli, hər ikisi') s+=.25;
+      if(v('S7a')==='Bəli, avtomatik xəbərdarlıq') s+=.5;
+      if(v('S7b')==='Bəli, açıq status səhifəsi var') s+=.25;
+      break;
+    case'D9':
+      if(v('S1')==='Xeyr') return 0;
+      if(v('S1')==='Xeyr, planlaşdırılır') return 1;
+      s = v('S1')==='Bəli, istismar rejimindədir'?2:1.5;
+      const d9s2=sel('S2');
+      if(d9s2.length>=4) s+=.5; else if(d9s2.length>=2) s+=.25;
+      if(v('S3')==='4 və daha çox') s+=.5; else if(v('S3')==='2–3 tətbiq') s+=.25;
+      if(v('S4')==='Bəli, ayrıca komanda') s+=.5;
+      if(v('S5')==='Hər ikisi var') s+=.5;
+      if(v('S6')==='Bəli, hər ikisi') s+=.5;
+      break;
+    case'D10':
+      if(v('S1')==='Xeyr, kənar şirkətə verilir') return .5;
+      s = v('S1')==='Bəli, ayrıca şöbə var'?2:v('S1')==='Tabeli rəqəmsal mərkəz var'?1.5:1;
+      if(v('S3')==='Bəli, CDTO/CIO səviyyəsi') s+=.5;
+      const d10s4=sel('S4');
+      if(d10s4.length>=6) s+=.75; else if(d10s4.length>=4) s+=.5; else if(d10s4.length>=2) s+=.25;
+      if(v('S5')==='Bəli, bir neçə nəfər') s+=.5;
+      if(v('S6a')==='Bəli') s+=.25;
+      break;
+    case'D11':
+      if(v('S1')==='Əsasən kağız') return 0;
+      s = v('S1')==='Tam rəqəmsal — ERP ilə'?2:v('S1')==='Qismən rəqəmsal'?1.5:1;
+      if(v('S2')==='Hər ikisi (SIMA + Asan İmza)') s+=.5;
+      else if(v('S2')!=='Tətbiq olunmur') s+=.25;
+      if(v('S3')==='80–100%') s+=.5; else if(v('S3')==='60–80%') s+=.25;
+      if(v('S5')==='Bəli, tam inteqrasiya') s+=.5;
+      if(v('S7a')==='Bəli, tam tətbiq olunub') s+=.5;
+      if(v('S7b')==='Bəli, tam') s+=.25;
+      break;
+    case'D12':
+      if(v('S1')==='Xeyr') return .5;
+      s = v('S1')==='Bəli, ayrıca şöbə/idarə'?1.5:1;
+      if(v('S2')==='Bəli, rəsmi vəzifəsi var (CISO)') s+=.5;
+      else if(v('S2')==='Bəli, faktiki məsul şəxs') s+=.25;
+      if(v('S3')==='Bəli, açıq dərc edilib') s+=.25;
+      if(v('S4a')==='Bəli, nəticə alınıb') s+=.5;
+      if(v('S5')==='Bəli, sertifikat var') s+=.5;
+      if(v('S6a')==='Bəli, 24/7 aktiv SOC') s+=.5;
+      if(v('S6b')==='Bəli, ildə 1+ dəfə') s+=.25;
+      if(v('S7a')==='Bəli, tam tətbiq olunub') s+=.5;
+      if(v('S7b')==='Bəli, tam avtomatik') s+=.25;
+      break;
+  }
+  return Math.min(5, parseFloat(s.toFixed(2)));
+}
+
+function weightedTotal(scores){
+  return parseFloat(CRIT.reduce((sum,c)=>sum+(scores[c.code]||0)*c.w, 0).toFixed(2));
+}
+
+/* ═══════════════════════════════════════
+   SEED DATA
+═══════════════════════════════════════ */
+function seed(){
+  if(DB.get('seeded')) return;
+
+  DB.set('users',[
+    {id:'u1',u:'admin',  p:'admin123', name:'Admin İsmayılov',      role:'ADMIN',  orgId:null},
+    {id:'u2',u:'miqrasiya',p:'qurum123',name:'Dövlət Miqrasiya X.', role:'QURUM',  orgId:'o2'},
+    {id:'u3',u:'asan',   p:'qurum123', name:'ASAN Xidmət DA',       role:'QURUM',  orgId:'o1'},
+    {id:'u4',u:'vergi',  p:'qurum123', name:'Dövlət Vergi Xidməti', role:'QURUM',  orgId:'o3'},
+    {id:'u5',u:'ekspert',p:'exp123',   name:'Ekspert Hüseynov',     role:'EKSPERT',orgId:null},
+  ]);
+
+  DB.set('orgs',[
+    {id:'o1', name:'ASAN Xidmət DA',            short:'ASAN',   grp:'MIH'},
+    {id:'o2', name:'Dövlət Miqrasiya Xidməti',  short:'DMX',    grp:'MIH'},
+    {id:'o3', name:'Dövlət Vergi Xidməti',      short:'DVX',    grp:'MIH'},
+    {id:'o4', name:'Elm və Təhsil Nazirliyi',   short:'ETN',    grp:'MIH'},
+    {id:'o5', name:'Əmək və Sosial Müd. Naz.',  short:'ƏƏSMN',  grp:'MIH'},
+    {id:'o6', name:'Dövlət Sosial Müd. Fondu',  short:'DSMF',   grp:'PHŞ'},
+    {id:'o7', name:'TƏBIB',                     short:'TƏBIB',  grp:'PHŞ'},
+    {id:'o8', name:'Dövlət Gömrük Komitəsi',    short:'DGK',    grp:'PHŞ'},
+    {id:'o9', name:'Azərbaycan Mərkəzi Bankı',  short:'AMB',    grp:'DDQ'},
+    {id:'o10',name:'Dövlət Statistika Komit.',  short:'DSK',    grp:'DDQ'},
+    {id:'o11',name:'"Azərenerji" ASC',          short:'Azərenerji',grp:'DMS'},
+    {id:'o12',name:'"Azərişıq" ASC',            short:'Azərişıq',  grp:'DMS'},
+    {id:'o13',name:'"Azəristiliktəchizat" ASC', short:'Azəristiliktəchizat',grp:'DMS'},
+  ]);
+
+  const DS={
+    o1:{D1:4,D2:3,D3:3,D4:4,D5:5,D6:5,D7:5,D8:5,D9:4,D10:5,D11:3,D12:4},
+    o2:{D1:4,D2:4,D3:4,D4:5,D5:4,D6:0,D7:4,D8:4,D9:1,D10:4,D11:4,D12:3},
+    o3:{D1:4,D2:5,D3:4,D4:3,D5:2,D6:2,D7:3,D8:4,D9:2,D10:4,D11:5,D12:4},
+    o4:{D1:5,D2:4,D3:4,D4:4,D5:4,D6:0,D7:4,D8:4,D9:3,D10:4,D11:5,D12:3},
+    o9:{D1:4,D2:4,D3:1,D4:3,D5:5,D6:0,D7:4,D8:3,D9:1,D10:4,D11:4,D12:1},
+    o13:{D1:0,D2:0,D3:1,D4:1,D5:0,D6:5,D7:0,D8:2,D9:0,D10:1,D11:1,D12:1},
+  };
+  const assessments=Object.entries(DS).map(([orgId,scores])=>({
+    id:'a_'+orgId, orgId, year:2026,
+    status:'APPROVED',
+    scores,
+    total:weightedTotal(scores),
+    answers:{},
+    subAt:new Date(Date.now()-Math.random()*7*864e5).toISOString(),
+    appAt:new Date(Date.now()-Math.random()*3*864e5).toISOString(),
+  }));
+  DB.set('assessments',assessments);
+
+  DB.set('logs',[
+    {t:now(),act:'LOGIN',user:'Admin İsmayılov',d:'Sistemə giriş',col:'green'},
+  ]);
+  DB.set('seeded',true);
+}
+function now(){return new Date().toLocaleString('az-AZ').slice(0,16)}
+
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+let CUR={user:null, screen:'login', critIdx:0, reviewOrg:null};
+
+/* ═══════════════════════════════════════
+   SVG ICONS
+═══════════════════════════════════════ */
+const I={
+  grid:`<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zM14 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"/></svg>`,
+  clip:`<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>`,
+  chart:`<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>`,
+  users:`<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>`,
+  list:`<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>`,
+  bld:`<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>`,
+  edit:`<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>`,
+  eye:`<svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>`,
+  plus:`<svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>`,
+  back:`<svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>`,
+  chk:`<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`,
+  print:`<svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>`,
+};
+
+/* ═══════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════ */
+function goTo(screen){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  const el=document.getElementById('s-'+screen);
+  if(el) el.classList.add('on');
+  CUR.screen=screen;
+  window.scrollTo(0,0);
+  updateTopNav();
+  const R={dash:rDash,qurum:rQurum,assess:rAssess,admin:rAdmin,review:rReview,reports:rReports,users:rUsers,audit:rAudit};
+  if(R[screen]) R[screen]();
+}
+
+function updateTopNav(){
+  const u=CUR.user;
+  if(!u) return;
+  const isAdm=['ADMIN','SUPER_ADMIN'].includes(u.role);
+  const isExp=u.role==='EKSPERT'||u.role==='QIYMETLENDIRICI';
+  const items=isAdm?[
+    {s:'dash',l:'Dashboard',ic:'grid'},
+    {s:'admin',l:'Qiymətləndirmələr',ic:'clip'},
+    {s:'reports',l:'Hesabatlar',ic:'chart'},
+    {s:'users',l:'İstifadəçilər',ic:'users'},
+    {s:'audit',l:'Audit Log',ic:'list'},
+  ]:u.role==='QURUM'?[
+    {s:'qurum',l:'Qurumum',ic:'bld'},
+    {s:'assess',l:'Self-Assessment',ic:'edit'},
+  ]:[
+    {s:'dash',l:'Dashboard',ic:'grid'},
+    {s:'reports',l:'Hesabatlar',ic:'chart'},
+  ];
+  document.getElementById('tb-nav').innerHTML=items.map(it=>`
+    <button class="tn${CUR.screen===it.s?' act':''}" onclick="goTo('${it.s}')">${I[it.ic]||''}${it.l}</button>
+  `).join('');
+}
+
+/* ─── SIDEBAR ── */
+const GRP_L={'MIH':'Mərkəzi İcra','PHŞ':'Publik Hüquqi','DMS':'Dövlət Mülkiyyətli','DDQ':'Digər Dövlət'};
+
+function sb(id, items){
+  const el=document.getElementById(id);
+  if(!el) return;
+  const pending=(DB.get('assessments')||[]).filter(a=>a.status==='SUBMITTED').length;
+  el.innerHTML=items.map(sec=>`
+    <div class="sb-sec">
+      ${sec.lbl?`<div class="sb-lbl">${sec.lbl}</div>`:''}
+      ${sec.items.map(it=>`
+        <div class="si${it.s===CUR.screen?' on':''}" onclick="goTo('${it.s}')">
+          <span class="si-ic">${I[it.ic]||''}</span>${it.l}
+          ${it.s==='admin'&&pending?`<span class="si-bdg">${pending}</span>`:''}
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+function sbAdmin(id){sb(id,[
+  {lbl:'Əsas',items:[{s:'dash',l:'Dashboard',ic:'grid'},{s:'admin',l:'Qiymətləndirmələr',ic:'clip'},{s:'reports',l:'Hesabatlar',ic:'chart'}]},
+  {lbl:'İdarəetmə',items:[{s:'users',l:'İstifadəçilər',ic:'users'},{s:'audit',l:'Audit Log',ic:'list'}]},
+])}
+function sbQurum(id){sb(id,[
+  {lbl:'Mənim Panelim',items:[{s:'qurum',l:'Qurumum',ic:'bld'},{s:'assess',l:'Self-Assessment',ic:'edit'}]},
+])}
+function sbExp(id){sb(id,[
+  {lbl:'Analitika',items:[{s:'dash',l:'Dashboard',ic:'grid'},{s:'reports',l:'Hesabatlar',ic:'chart'}]},
+])}
+
+/* ═══════════════════════════════════════
+   AUTH
+═══════════════════════════════════════ */
+function login(){
+  const u=document.getElementById('lu').value.trim();
+  const p=document.getElementById('lp').value;
+  const err=document.getElementById('lerr');
+  const users=DB.get('users')||[];
+  const found=users.find(x=>x.u===u&&x.p===p);
+  if(!found){err.textContent='İstifadəçi adı və ya şifrə yanlışdır.';err.style.display='block';return;}
+  err.style.display='none';
+  CUR.user=found;
+  document.getElementById('topbar').style.display='flex';
+  document.getElementById('t-name').textContent=found.name;
+  const rl={ADMIN:'Super Admin',SUPER_ADMIN:'Super Admin',QURUM:'Qurum İstifadəçisi',EKSPERT:'Ekspert',QIYMETLENDIRICI:'Qiymətləndiricı'};
+  document.getElementById('t-role').textContent=rl[found.role]||found.role;
+  document.getElementById('t-av').textContent=found.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  addLog('LOGIN',found.name,'Sistemə giriş','green');
+  goTo(found.role==='QURUM'?'qurum':'dash');
+}
+function ql(u,p){
+  document.getElementById('lu').value=u;
+  document.getElementById('lp').value=p;
+  login();
+}
+function doLogout(){
+  addLog('LOGOUT',CUR.user?.name,'Sistemdən çıxış','gray');
+  CUR.user=null;
+  document.getElementById('topbar').style.display='none';
+  document.getElementById('lu').value='';
+  document.getElementById('lp').value='';
+  goTo('login');
+}
+function addLog(act,user,d,col){
+  const logs=DB.get('logs')||[];
+  logs.unshift({t:now(),act,user,d,col});
+  DB.set('logs',logs.slice(0,200));
+}
+
+/* ═══════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════ */
+const HC={0:'#fee2e2|#991b1b',1:'#fecaca|#991b1b',2:'#fef9c3|#713f12',3:'#d1fae5|#065f46',4:'#6ee7b7|#064e3b',5:'#059669|white'};
+function hCell(v){if(v==null||v===undefined)return`<td class="hna">N/A</td>`;const r=Math.round(v);const[bg,c]=(HC[r]||HC[0]).split('|');return`<td style="background:${bg};color:${c};font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600">${v}</td>`;}
+const STC={DRAFT:{l:'Doldurulur',bg:'#fef3c7',c:'#b45309'},SUBMITTED:{l:'Göndərilib',bg:'#cffafe',c:'#0e7490'},IN_REVIEW:{l:'Nəzərdə',bg:'#cffafe',c:'#0e7490'},APPROVED:{l:'Təsdiqləndi',bg:'#d1fae5',c:'#047857'},REJECTED:{l:'Rədd edildi',bg:'#fee2e2',c:'#b91c1c'}};
+function stBdg(st){const s=STC[st]||{l:st,bg:'#f3f4f6',c:'#6b7280'};return`<span class="bdg" style="background:${s.bg};color:${s.c}">● ${s.l}</span>`;}
+function scCard(l,v,sub,pr,gr,rd){
+  const bg=pr?'background:linear-gradient(135deg,#0d2044,#1a3a6b);border-color:transparent':'';
+  const vc=pr?'#fff':gr?'var(--green)':rd?'var(--red)':'var(--g900)';
+  const lc=pr?'rgba(255,255,255,.45)':'var(--g500)';
+  return`<div class="sc${pr?' pr':''}"><div class="scl" style="color:${lc}">${l}</div><div class="scv" style="color:${vc}">${v}</div>${sub?`<div class="scs" style="color:${pr?'rgba(255,255,255,.35)':'var(--g400)'}">${sub}</div>`:''}</div>`;
+}
+function pbar(v,col){const pct=Math.min(100,(v/5)*100);const c={'blue':'var(--blue)','green':'var(--green)','amber':'var(--amber)','red':'var(--red)'}[col]||'var(--blue)';return`<div class="prog"><div class="pf" style="width:${pct}%;background:${c}"></div></div>`;}
+function smini(v){const pct=Math.min(100,(v/5)*100);const c=v>=4?'var(--green)':v>=2.5?'var(--blue)':v>=1.5?'var(--amber)':'var(--red)';return`<div class="sm"><div class="sm-v">${v.toFixed(2)}</div><div class="sm-b"><div class="sm-f" style="width:${pct}%;background:${c}"></div></div></div>`;}
+function getOrg(id){return(DB.get('orgs')||[]).find(o=>o.id===id)||{name:id,short:id,grp:''}}
+function getAssess(orgId){return(DB.get('assessments')||[]).find(a=>a.orgId===orgId&&a.year===2026)}
+
+/* ═══════════════════════════════════════
+   RENDER FUNCTIONS
+═══════════════════════════════════════ */
+
+/* ─── DASHBOARD ── */
+function rDash(){
+  const isAdm=['ADMIN','SUPER_ADMIN'].includes(CUR.user?.role);
+  if(isAdm) sbAdmin('sb-dash'); else sbExp('sb-dash');
+  const all=(DB.get('assessments')||[]).filter(a=>a.status==='APPROVED');
+  const pend=(DB.get('assessments')||[]).filter(a=>a.status==='SUBMITTED').length;
+  const tots=all.map(a=>a.total||0);
+  const avg=tots.length?(tots.reduce((a,b)=>a+b,0)/tots.length).toFixed(2):'—';
+  const sorted=[...all].sort((a,b)=>(b.total||0)-(a.total||0));
+  const best=sorted[0],worst=sorted[sorted.length-1];
+  document.getElementById('dash-ps').textContent=`Azərbaycan Dövlət Qurumları · 2026 · ${all.length} qiymətləndirilmiş qurum`;
+  document.getElementById('dash-stats').innerHTML=
+    scCard('Ölkə Orta Balı',avg,'5.00 üzərindən',true)+
+    scCard('Qiymətləndirilmiş',all.length+'','qurum')+
+    scCard('Gözləyən',pend.toString(),'Təsdiq tələb olunur','',false,pend>0)+
+    scCard('Lider',best?getOrg(best.orgId).short:'—',best?(best.total||0).toFixed(2)+' bal':'','',true);
+
+  // Heatmap
+  let ht=`<table class="ht"><thead><tr><th>Qurum</th>${CRIT.map(c=>`<th>${c.code}</th>`).join('')}<th style="min-width:50px">Ümumi</th></tr></thead><tbody>`;
+  sorted.forEach(a=>{
+    const org=getOrg(a.orgId);
+    ht+=`<tr><td>${org.name}</td>${CRIT.map(c=>hCell(a.scores?.[c.code])).join('')}${hCell(parseFloat((a.total||0).toFixed(2)))}</tr>`;
+  });
+  ht+=`</tbody></table>`;
+  document.getElementById('heatmap').innerHTML=ht||'<div style="text-align:center;color:var(--g400);padding:2rem;font-size:12px">Hələ təsdiqlənmiş qiymətləndirmə yoxdur.</div>';
+
+  // Qrup chart
+  const grps={'MIH':'Mərkəzi İcra','PHŞ':'Publik Hüquqi','DMS':'Dövlət Mülkiyyətli','DDQ':'Digər Dövlət'};
+  let gc='<div style="display:flex;flex-direction:column;gap:13px">';
+  Object.entries(grps).forEach(([g,l])=>{
+    const ga=all.filter(a=>getOrg(a.orgId).grp===g);
+    if(!ga.length) return;
+    const av=(ga.reduce((s,a)=>s+(a.total||0),0)/ga.length).toFixed(2);
+    const col=+av>=3.5?'green':+av>=2.5?'blue':'amber';
+    gc+=`<div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;font-weight:600"><span style="color:var(--g700)">${l}</span><span style="font-family:'JetBrains Mono',monospace;font-weight:700">${av}</span></div>${pbar(+av,col)}</div>`;
+  });
+  gc+='</div>';
+  document.getElementById('grp-chart').innerHTML=gc;
+
+  // Crit chart
+  let cc='<div style="display:flex;flex-direction:column;gap:10px">';
+  const cAvgs=CRIT.map(c=>{
+    const vs=all.map(a=>a.scores?.[c.code]||0);
+    return {...c,avg:vs.length?+(vs.reduce((a,b)=>a+b,0)/vs.length).toFixed(2):0};
+  }).sort((a,b)=>b.avg-a.avg);
+  cAvgs.forEach(c=>{
+    const col=c.avg>=3.5?'green':c.avg>=2.5?'blue':c.avg>=1.5?'amber':'red';
+    cc+=`<div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px"><span style="color:var(--g500)">${c.code} · ${c.name}</span><span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--${col})">${c.avg.toFixed(2)}</span></div>${pbar(c.avg,col)}</div>`;
+  });
+  cc+='</div>';
+  document.getElementById('crit-chart').innerHTML=cc;
+}
+
+/* ─── QURUM ── */
+function rQurum(){
+  sbQurum('sb-qurum');
+  const u=CUR.user;
+  const org=getOrg(u.orgId);
+  const a=getAssess(u.orgId);
+  const st=a?STC[a.status]:null;
+  let html=`
+    <div class="ph"><div class="pt">${org.name}</div><div class="ps">Self-assessment vəziyyəti · 2026</div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:1.5rem">
+      ${scCard('Cari Bal',a?.total?.toFixed(2)||'—','5.00 üzərindən',true)}
+      <div class="sc"><div class="scl">Status</div><div style="margin-top:5px">${st?`<span class="bdg" style="background:${st.bg};color:${st.c};font-size:13px;padding:5px 12px">● ${st.l}</span>`:'<span style="color:var(--g400);font-size:12px">Assessment yoxdur</span>'}</div></div>
+      ${scCard('Kriteriya','12','Qiymətləndirmə sahəsi')}
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ct">Assessment Vəziyyəti</div>
+        ${(!a||a.status==='DRAFT')?`<button class="btn btn-blue btn-sm" onclick="goTo('assess')">${I.edit} ${a?'Davam et':'Başla'}</button>`:''}
+      </div>
+      <div class="cb">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          ${CRIT.map((c,i)=>{
+            const done=a&&a.answers&&Object.keys(a.answers).some(k=>k.startsWith(c.code+'_'));
+            return `<div style="display:flex;align-items:center;gap:12px;padding:9px 11px;border-radius:9px;background:${done?'var(--green-l)':'var(--g50)'}">
+              <div style="width:7px;height:7px;border-radius:50%;background:${done?'var(--green)':'var(--g300)'};flex-shrink:0"></div>
+              <span style="font-size:12px;font-weight:600;flex:1;color:${done?'var(--green)':'var(--g500)'}">${c.name}</span>
+              <span style="font-size:9px;color:var(--g400);font-weight:700">${(c.w*100).toFixed(0)}%</span>
+              ${done?`<span class="bdg b-green" style="font-size:9px">Tamamlandı</span>`:`<span class="bdg b-gray" style="font-size:9px">Gözləyir</span>`}
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+    ${a?.status==='APPROVED'?`<div style="background:var(--green-l);border:1px solid #a7f3d0;border-radius:var(--r);padding:1rem 1.25rem"><div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:4px">✓ Assessment təsdiqləndi</div><div style="font-size:12px;color:#065f46">Final bal: <strong>${a.total?.toFixed(2)}</strong></div></div>`:''}
+  `;
+  document.getElementById('main-qurum').innerHTML=html;
+}
+
+/* ─── ASSESSMENT ── */
+function rAssess(){
+  sbQurum('sb-assess');
+  const u=CUR.user;
+  const org=getOrg(u.orgId);
+  document.getElementById('assess-org').textContent=org.name+' · 12 kriteriya';
+  // Ensure assessment exists
+  let asses=DB.get('assessments')||[];
+  let a=asses.find(x=>x.orgId===u.orgId&&x.year===2026);
+  if(!a){
+    a={id:'a_'+u.orgId,orgId:u.orgId,year:2026,status:'DRAFT',scores:{},answers:{},total:0};
+    asses.push(a);
+    DB.set('assessments',asses);
+  }
+  if(a.status!=='DRAFT'){
+    const st=STC[a.status];
+    document.getElementById('assess-badge').textContent=st?.l||a.status;
+    document.getElementById('assess-badge').style.cssText=`background:${st?.bg};color:${st?.c}`;
+  }
+  renderNav();
+  renderForm();
+}
+
+function myAssess(){
+  return (DB.get('assessments')||[]).find(a=>a.orgId===CUR.user?.orgId&&a.year===2026);
+}
+
+function renderNav(){
+  const a=myAssess();
+  const el=document.getElementById('asn');
+  if(!el) return;
+  let html=`<div class="asn-title">Kriteriyalar</div>`;
+  CRIT.forEach((c,i)=>{
+    const done=a&&Object.keys(a.answers||{}).some(k=>k.startsWith(c.code+'_'));
+    html+=`<div class="asn-item${i===CUR.critIdx?' act':''}${done?' done':''}" onclick="CUR.critIdx=${i};renderForm()">
+      <span style="flex:1;font-size:11px">${c.name}</span>
+      <span class="asn-ck">${done?I.chk:''}</span>
+    </div>`;
+  });
+  el.innerHTML=html;
+}
+
+function condOk(q, ans, critCode){
+  if(!q.dep) return true;
+  const d=q.dep;
+  const key=critCode+'_'+d.f;
+  const a=ans[key];
+  if(d.is) return a?.v===d.is;
+  if(d.not) return a?.v!==d.not;
+  if(d.in) return d.in.includes(a?.v||'');
+  if(d.gt!==undefined) return (parseFloat(a?.n||0)||0)>d.gt;
+  if(d.notEmpty) return (a?.s||[]).length>0;
+  if(d.minSel) return (a?.s||[]).length>=d.minSel;
+  return true;
+}
+
+function renderForm(){
+  const a=myAssess();
+  const crit=CRIT[CUR.critIdx];
+  const qs=QS[crit.code]||[];
+  const ans=a?.answers||{};
+  const el=document.getElementById('af-wrap');
+  if(!el) return;
+
+  // progress
+  const total=Object.values(QS).flat().length;
+  const done=Object.keys(ans).length;
+  const pct=Math.round((done/total)*100);
+
+  let body='';
+  qs.forEach(q=>{
+    if(!condOk(q,ans,crit.code)) return;
+    const key=crit.code+'_'+q.c;
+    const sv=ans[key]||{};
+    const isBase=!q.dep;
+
+    // Skip empty-label radio (MyGov none checkbox style)
+    if(q.t==='radio'&&!q.q) {
+      const sel=sv.v===q.o[0];
+      body+=`<div class="qi"><div class="ro${sel?' sel':''}" onclick="saveA('${key}','v','${q.o[0].replace(/'/g,"\\'")}')"><div class="rc"></div>${q.o[0]}</div></div>`;
+      return;
+    }
+
+    body+=`<div class="qi">
+      <div class="qi-top"><span class="qtag ${isBase?'base':'dep'}">${q.c}</span>
+        <div class="qlabel">${q.q}${q.t==='multi'?`<span class="multi-tag">MULTI</span>`:''}</div>
+      </div>`;
+
+    if(q.t==='radio'){
+      body+=`<div class="rg">`;
+      q.o.forEach(o=>{
+        const s=sv.v===o;
+        body+=`<div class="ro${s?' sel':''}" onclick="saveA('${key}','v',${JSON.stringify(o)})"><div class="rc"></div>${o}</div>`;
+      });
+      body+=`</div>`;
+    }
+    else if(q.t==='multi'){
+      body+=`<div class="mw">`;
+      q.o.forEach(o=>{
+        const s=(sv.s||[]).includes(o);
+        body+=`<div class="mo${s?' sel':''}" onclick="toggleM('${key}',${JSON.stringify(o)})">${o}</div>`;
+      });
+      body+=`</div>`;
+    }
+    else if(q.t==='num'){
+      body+=`<div class="nr"><div class="nl">${q.q}</div><input class="ni" type="number" min="0" value="${sv.n||''}" oninput="saveA('${key}','n',this.value)"></div>`;
+      // Remove duplicate label
+      body=body.replace(`<div class="qi-top"><span class="qtag ${isBase?'base':'dep'}">${q.c}</span>\n        <div class="qlabel">${q.q}${q.t==='multi'?`<span class="multi-tag">MULTI</span>`:''}</div>\n      </div>`,'<div class="qi-top"><span class="qtag dep">'+q.c+'</span><div></div></div>');
+    }
+    else if(q.t==='pct3'){
+      body+=`<div class="pct-grid">`;
+      q.labels.forEach((lbl,li)=>{
+        const k2=crit.code+'_'+q.c+'_'+q.keys[li];
+        const sv2=ans[k2]||{};
+        body+=`<div class="pct-box"><div class="pct-lbl">${lbl}</div><div style="display:flex;align-items:center;gap:4px"><input class="pct-in" type="number" min="0" max="100" value="${sv2.n||''}" oninput="saveA('${k2}','n',this.value)"><span style="color:var(--g400);font-size:13px;font-weight:600">%</span></div></div>`;
+      });
+      body+=`</div>`;
+    }
+    else if(q.t==='nums'){
+      body+=`<div style="display:flex;flex-direction:column;gap:6px">`;
+      q.labels.forEach((lbl,li)=>{
+        const k2=crit.code+'_'+q.c+'_'+q.keys[li];
+        const sv2=ans[k2]||{};
+        body+=`<div class="nr"><div class="nl">${lbl}:</div><input class="ni" type="number" min="0" value="${sv2.n||''}" oninput="saveA('${k2}','n',this.value)"></div>`;
+      });
+      body+=`</div>`;
+    }
+    body+=`</div>`;
+  });
+
+  const isLast=CUR.critIdx===CRIT.length-1;
+  const locked=a&&a.status!=='DRAFT';
+
+  el.innerHTML=`
+    <div class="af">
+      <div class="af-hdr">
+        <div class="af-tag">Kriteriya ${CUR.critIdx+1} / ${CRIT.length}</div>
+        <div class="af-name">${crit.name}</div>
+        <div class="af-wt">Çəki: ${(crit.w*100).toFixed(0)}% ${locked?'· <span style="color:var(--green)">Göndərilmiş</span>':''}</div>
+      </div>
+      <div class="af-prog-bar">
+        <div style="font-size:11px;color:var(--g500)">Ümumi tamamlanma:</div>
+        <div class="af-pb"><div class="af-pf" style="width:${pct}%"></div></div>
+        <div style="font-size:11px;font-weight:700;color:var(--blue)">${pct}%</div>
+        <div class="af-autosave" id="autosave-lbl">✓ Saxlanılıb</div>
+      </div>
+      <div class="af-body">${body||'<div style="text-align:center;color:var(--g400);padding:2rem;font-size:12px">Bu kriteriya üçün suallar yüklənir...</div>'}</div>
+      ${!locked?`<div class="af-footer">
+        <div class="af-autosave">✓ Avtomatik saxlanılır</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost" onclick="prevC()" ${CUR.critIdx===0?'disabled style="opacity:.4"':''}>← Əvvəlki</button>
+          ${isLast?`<button class="btn btn-green" onclick="submitA()">✓ Göndər</button>`:`<button class="btn btn-blue" onclick="nextC()">Növbəti →</button>`}
+        </div>
+      </div>`:'<div class="af-footer"><div class="af-autosave">Assessment göndərilib</div><button class="btn btn-ghost" onclick="goTo(\'qurum\')">← Geri</button></div>'}
+    </div>
+  `;
+  renderNav();
+}
+
+function saveA(key,field,val){
+  let asses=DB.get('assessments')||[];
+  const i=asses.findIndex(a=>a.orgId===CUR.user.orgId&&a.year===2026);
+  if(i<0) return;
+  if(!asses[i].answers) asses[i].answers={};
+  asses[i].answers[key]=asses[i].answers[key]||{};
+  if(field==='n') asses[i].answers[key].n=parseFloat(val)||0;
+  else asses[i].answers[key][field]=val;
+  DB.set('assessments',asses);
+  const lbl=document.getElementById('autosave-lbl');
+  if(lbl){lbl.textContent='⏳ Saxlanılır...';setTimeout(()=>{if(lbl)lbl.textContent='✓ Saxlanılıb'},600);}
+}
+
+function toggleM(key,opt){
+  let asses=DB.get('assessments')||[];
+  const i=asses.findIndex(a=>a.orgId===CUR.user.orgId&&a.year===2026);
+  if(i<0) return;
+  if(!asses[i].answers) asses[i].answers={};
+  const cur=(asses[i].answers[key]?.s)||[];
+  asses[i].answers[key]={s:cur.includes(opt)?cur.filter(x=>x!==opt):[...cur,opt]};
+  DB.set('assessments',asses);
+  renderForm();
+}
+
+function nextC(){CUR.critIdx=Math.min(CRIT.length-1,CUR.critIdx+1);renderForm();window.scrollTo(0,0);}
+function prevC(){CUR.critIdx=Math.max(0,CUR.critIdx-1);renderForm();window.scrollTo(0,0);}
+
+function submitA(){
+  if(!confirm('Assessmenti göndərirsiniz. Göndərdikdən sonra redaktə etmək mümkün olmayacaq.\n\nDavam edilsin?')) return;
+  let asses=DB.get('assessments')||[];
+  const i=asses.findIndex(a=>a.orgId===CUR.user.orgId&&a.year===2026);
+  if(i<0) return;
+  // Calculate scores
+  const ans=asses[i].answers||{};
+  // Build per-criterion answer maps
+  const scores={};
+  CRIT.forEach(c=>{
+    // Build answer object for this criterion
+    const critAns={};
+    Object.entries(ans).forEach(([k,val])=>{
+      if(k.startsWith(c.code+'_')){
+        const shortKey=k.slice(c.code.length+1);
+        critAns[shortKey]=val;
+      }
+    });
+    scores[c.code]=calcScore(c.code,critAns);
+  });
+  asses[i].scores=scores;
+  asses[i].total=weightedTotal(scores);
+  asses[i].status='SUBMITTED';
+  asses[i].subAt=new Date().toISOString();
+  DB.set('assessments',asses);
+  addLog('ASSESSMENT_SUBMITTED',CUR.user.name,getOrg(CUR.user.orgId).name+' · Assessment göndərildi','amber');
+  alert('✓ Assessment uğurla göndərildi!\nAdmin tərəfindən nəzərdən keçiriləcək.');
+  goTo('qurum');
+}
+
+/* ─── ADMIN ── */
+function rAdmin(){
+  sbAdmin('sb-admin');
+  const asses=DB.get('assessments')||[];
+  const pend=asses.filter(a=>['SUBMITTED','IN_REVIEW'].includes(a.status));
+  const appr=asses.filter(a=>a.status==='APPROVED');
+  const rej=asses.filter(a=>a.status==='REJECTED');
+
+  function tbl(rows,showBtn){
+    if(!rows.length) return`<div style="text-align:center;color:var(--g400);padding:1.5rem;font-size:12px">Qeyd yoxdur.</div>`;
+    return`<table class="tbl"><thead><tr>${['Qurum','Qrup','Status','Bal','Göndərilmə',''].map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${
+      rows.map(a=>{const org=getOrg(a.orgId);return`<tr>
+        <td><div style="font-weight:700">${org.name}</div></td>
+        <td>${GRP_L[org.grp]||org.grp}</td>
+        <td>${stBdg(a.status)}</td>
+        <td>${smini(a.total||0)}</td>
+        <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--g400)">${a.subAt?new Date(a.subAt).toLocaleDateString('az-AZ'):'—'}</td>
+        <td>${showBtn?`<button class="btn btn-blue btn-sm" onclick="openReview('${a.orgId}')">${I.eye} Nəzərdən keç</button>`:`<button class="btn btn-ghost btn-sm" onclick="openReview('${a.orgId}')">Görüntülə</button>`}</td>
+      </tr>`;}).join('')}</tbody></table>`;
+  }
+
+  document.getElementById('main-admin').innerHTML=`
+    <div class="ph"><div style="display:flex;align-items:flex-start;justify-content:space-between">
+      <div><div class="pt">Qiymətləndirmələr</div><div class="ps">Self-assessment nəticələrini nəzərdən keçirin</div></div>
+      <button class="btn btn-blue" onclick="showAddOrgM()">${I.plus} Yeni Qurum</button>
+    </div></div>
+    <div class="card" style="border-left:3px solid var(--amber)">
+      <div class="ch"><div class="ct">⏳ Təsdiq Gözləyən (${pend.length})</div><span class="bdg b-amber">${pend.length} assessment</span></div>
+      ${tbl(pend,true)}
+    </div>
+    <div class="card" style="border-left:3px solid var(--green)">
+      <div class="ch"><div class="ct">✓ Təsdiqlənmiş (${appr.length})</div><span class="bdg b-green">${appr.length}</span></div>
+      ${tbl(appr,false)}
+    </div>
+    ${rej.length?`<div class="card" style="border-left:3px solid var(--red)"><div class="ch"><div class="ct">✕ Rədd Edilmiş (${rej.length})</div></div>${tbl(rej,false)}</div>`:''}
+  `;
+}
+
+/* ─── REVIEW ── */
+function openReview(orgId){
+  CUR.reviewOrg=orgId;
+  let asses=DB.get('assessments')||[];
+  const i=asses.findIndex(a=>a.orgId===orgId);
+  if(i>=0&&asses[i].status==='SUBMITTED'){asses[i].status='IN_REVIEW';DB.set('assessments',asses);}
+  goTo('review');
+}
+
+function rReview(){
+  sbAdmin('sb-review');
+  const orgId=CUR.reviewOrg;
+  const asses=DB.get('assessments')||[];
+  const a=asses.find(x=>x.orgId===orgId);
+  const org=getOrg(orgId);
+  if(!a){document.getElementById('main-review').innerHTML='<div style="padding:2rem;color:var(--g500)">Tapılmadı.</div>';return;}
+  const scores=a.scores||{};
+  const tot=weightedTotal(scores);
+  const locked=a.status==='APPROVED'||a.status==='REJECTED';
+
+  const cards=CRIT.map(c=>{
+    const cur=scores[c.code]??0;
+    const r=Math.round(cur);
+    const[bg,col]=(HC[r]||HC[0]).split('|');
+    return`<div class="rvc${c.code in (a._changed||{})?' changed':''}">
+      <div class="rvc-code">${c.code} · ${(c.w*100).toFixed(0)}%</div>
+      <div class="rvc-name">${c.name}</div>
+      <div class="rvc-row">
+        <div class="rvc-val" style="color:${col}">${cur}</div>
+        <div class="rvc-max">/5</div>
+        <div class="prog" style="flex:1;margin-left:8px"><div class="pf" style="width:${(cur/5)*100}%;background:var(--blue)"></div></div>
+      </div>
+      ${!locked?`<div class="sbtns">${[0,1,2,3,4,5].map(n=>`<button class="sbtn${cur===n?' on':''}" onclick="setScr('${orgId}','${c.code}',${n})">${n}</button>`).join('')}</div>`:''}
+    </div>`;
+  }).join('');
+
+  document.getElementById('main-review').innerHTML=`
+    <div class="ph"><div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+      <button class="btn btn-ghost btn-sm" onclick="goTo('admin')">${I.back} Geri</button>
+      <div class="pt">${org.name} — Nəzərdən Keçirilir</div>
+    </div><div class="ps">Hər kriteriya üzrə balı yoxlayın, zəruri hallarda düzəliş edin</div></div>
+    <div class="card">
+      <div class="rv-hdr">
+        <div><div class="rv-org">${org.name}</div><div class="rv-sub">${GRP_L[org.grp]||org.grp} · ${a.year} · ${STC[a.status]?.l||a.status}</div></div>
+        <div class="rv-total"><div class="rv-num">${tot.toFixed(2)}</div><div class="rv-lbl">Ümumi Bal</div></div>
+      </div>
+      <div class="rv-grid">${cards}</div>
+      ${!locked?`<div style="padding:1rem 1.25rem;border-top:1px solid var(--g200);display:flex;align-items:center;gap:10px;background:var(--g50)">
+        <div style="flex:1;font-size:12px;color:var(--g500)">Düzəliş edin, sonra təsdiqləyin</div>
+        <button class="btn btn-ghost" onclick="goTo('admin')">Ləğv et</button>
+        <button class="btn btn-red btn-sm" onclick="rejectA('${orgId}')">✕ Rədd et</button>
+        <button class="btn btn-green" onclick="approveA('${orgId}')">✓ Təsdiqlə</button>
+      </div>`:`<div style="padding:1rem 1.25rem;border-top:1px solid var(--g200);display:flex;gap:10px;justify-content:flex-end;background:var(--g50)">
+        <button class="btn btn-ghost" onclick="goTo('admin')">${I.back} Geri</button>
+        <button class="btn btn-blue" onclick="window.print()">${I.print} Çap et</button>
+      </div>`}
+    </div>
+  `;
+}
+
+function setScr(orgId,code,val){
+  let asses=DB.get('assessments')||[];
+  const i=asses.findIndex(a=>a.orgId===orgId);
+  if(i<0) return;
+  if(!asses[i].scores) asses[i].scores={};
+  asses[i].scores[code]=val;
+  asses[i].total=weightedTotal(asses[i].scores);
+  DB.set('assessments',asses);
+  addLog('SCORES_UPDATED',CUR.user.name,`${code}: ${val} bal`,  'blue');
+  rReview();
+}
+
+function approveA(orgId){
+  const note=prompt('Admin qeydi (ixtiyari):')||'';
+  let asses=DB.get('assessments')||[];
+  const i=asses.findIndex(a=>a.orgId===orgId);
+  if(i<0) return;
+  asses[i].status='APPROVED';
+  asses[i].appAt=new Date().toISOString();
+  asses[i].note=note;
+  DB.set('assessments',asses);
+  addLog('ASSESSMENT_APPROVED',CUR.user.name,getOrg(orgId).name+' — bal: '+asses[i].total,'green');
+  alert('✓ Assessment təsdiqləndi!');
+  goTo('admin');
+}
+
+function rejectA(orgId){
+  const note=prompt('Rədd səbəbini yazın:');
+  if(!note) return;
+  let asses=DB.get('assessments')||[];
+  const i=asses.findIndex(a=>a.orgId===orgId);
+  if(i<0) return;
+  asses[i].status='REJECTED';
+  asses[i].note=note;
+  DB.set('assessments',asses);
+  addLog('ASSESSMENT_REJECTED',CUR.user.name,getOrg(orgId).name+' rədd edildi','red');
+  alert('Assessment rədd edildi.');
+  goTo('admin');
+}
+
+/* ─── REPORTS ── */
+function rReports(){
+  const isAdm=['ADMIN','SUPER_ADMIN'].includes(CUR.user?.role);
+  if(isAdm) sbAdmin('sb-reports'); else sbExp('sb-reports');
+  const all=(DB.get('assessments')||[]).filter(a=>a.status==='APPROVED');
+  const tots=all.map(a=>a.total||0);
+  const avg=tots.length?(tots.reduce((a,b)=>a+b,0)/tots.length).toFixed(2):'—';
+  const sorted=[...all].sort((a,b)=>(b.total||0)-(a.total||0));
+  const best=sorted[0],worst=sorted[sorted.length-1];
+
+  const critRows=CRIT.map(c=>{
+    const vs=all.map(a=>a.scores?.[c.code]||0);
+    const av=vs.length?+(vs.reduce((a,b)=>a+b,0)/vs.length).toFixed(2):0;
+    const col=av>=3.5?'var(--green)':av>=2.5?'var(--blue)':av>=1.5?'var(--amber)':'var(--red)';
+    return`<tr>
+      <td><span style="font-family:'JetBrains Mono',monospace;font-size:10px;background:var(--blue-ll);color:var(--blue);border:1px solid var(--blue-l);border-radius:4px;padding:1px 6px;margin-right:6px">${c.code}</span>${c.name}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-weight:600">${(c.w*100).toFixed(0)}%</td>
+      <td><div style="display:flex;align-items:center;gap:8px"><span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:${col};width:28px">${av.toFixed(2)}</span><div class="prog" style="flex:1;min-width:60px"><div class="pf" style="width:${(av/5)*100}%;background:${col}"></div></div></div></td>
+      <td style="font-family:'JetBrains Mono',monospace;color:var(--blue)">${Math.min(5,av*1.35).toFixed(2)}</td>
+      <td style="font-family:'JetBrains Mono',monospace;color:var(--green)">${Math.min(5,av*1.85).toFixed(2)}</td>
+    </tr>`;
+  }).join('');
+
+  const rankRows=sorted.map((a,i)=>{
+    const org=getOrg(a.orgId);
+    return`<div style="display:flex;align-items:center;gap:12px;padding:9px 11px;border-radius:9px;margin-bottom:5px;background:${i===0?'var(--blue-ll)':i===1?'#f0f9ff':'var(--g50)'}">
+      <div style="width:26px;height:26px;border-radius:50%;background:${i===0?'var(--blue)':i===1?'#7dd3fc':'var(--g200)'};color:${i<2?'#fff':'var(--g600)'};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">${i+1}</div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:700">${org.name}</div><div style="font-size:10px;color:var(--g400)">${GRP_L[org.grp]||org.grp}</div></div>
+      <div class="prog" style="width:90px"><div class="pf" style="width:${(a.total/5)*100}%;background:var(--blue)"></div></div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:800;width:36px;text-align:right">${(a.total||0).toFixed(2)}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('main-reports').innerHTML=`
+    <div class="ph"><div style="display:flex;align-items:flex-start;justify-content:space-between">
+      <div><div class="pt">Statistik Hesabatlar</div><div class="ps">Azərbaycan · 2026 · ${all.length} qurum</div></div>
+      <button class="btn btn-ghost" onclick="window.print()">${I.print} PDF/Çap</button>
+    </div></div>
+    <div class="sg">
+      ${scCard('Ölkə Orta',avg,'Hədəf 2027: 3.65',true)}
+      ${scCard('Ən Yüksək',(best?.total||0).toFixed(2),getOrg(best?.orgId||'').short||'—','',true)}
+      ${scCard('Ən Aşağı',(worst?.total||0).toFixed(2),getOrg(worst?.orgId||'').short||'—','','',true)}
+      ${scCard('Boşluq',((best?.total||0)-(worst?.total||0)).toFixed(2),'Maks–Min fərqi')}
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ct">Kriteriya üzrə Ölkə Statistikası</div></div>
+      <table class="tbl"><thead><tr>${['Kriteriya','Çəki','Ölkə Orta','Hədəf 2027','Hədəf 2030'].map(h=>`<th>${h}</th>`).join('')}</tr></thead>
+      <tbody>${critRows}</tbody></table>
+    </div>
+    <div class="card"><div class="ch"><div class="ct">Qurum Sıralaması</div></div>
+      <div class="cb">${rankRows||'<div style="text-align:center;color:var(--g400);font-size:12px;padding:1.5rem">Hələ təsdiqlənmiş nəticə yoxdur.</div>'}</div>
+    </div>
+  `;
+}
+
+/* ─── USERS ── */
+function rUsers(){
+  sbAdmin('sb-users');
+  const users=DB.get('users')||[];
+  const RL={ADMIN:{l:'Admin',bg:'var(--blue-ll)',c:'var(--blue)'},SUPER_ADMIN:{l:'Super Admin',bg:'var(--blue-ll)',c:'var(--blue)'},QURUM:{l:'Qurum',bg:'var(--green-l)',c:'var(--green)'},EKSPERT:{l:'Ekspert',bg:'var(--amber-l)',c:'var(--amber)'},QIYMETLENDIRICI:{l:'Qiymətləndiricı',bg:'#f3e8ff',c:'#6b21a8'}};
+  document.getElementById('main-users').innerHTML=`
+    <div class="ph"><div style="display:flex;align-items:flex-start;justify-content:space-between">
+      <div><div class="pt">İstifadəçi İdarəetməsi</div><div class="ps">Rol sistemi daxilən idarə edilir</div></div>
+      <button class="btn btn-blue" onclick="showAddUserM()">${I.plus} Yeni İstifadəçi</button>
+    </div></div>
+    <div style="background:var(--blue-ll);border:1px solid var(--blue-l);border-radius:8px;padding:.75rem 1rem;margin-bottom:1.25rem;font-size:12px;color:var(--blue);line-height:1.6">
+      <strong>Rol bölgüsü:</strong> İstifadəçilər daxil olduqda yalnız öz roluna uyğun imkanlara çıxış əldə edir. Qurum yalnız öz assessmentini görür.
+    </div>
+    ${users.map(u=>{
+      const r=RL[u.role]||{l:u.role,bg:'var(--g100)',c:'var(--g600)'};
+      const org=u.orgId?(DB.get('orgs')||[]).find(o=>o.id===u.orgId):null;
+      const ini=u.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+      return`<div style="background:var(--surf);border:1px solid var(--g200);border-radius:var(--r);padding:1rem 1.25rem;display:flex;align-items:center;gap:14px;margin-bottom:10px;box-shadow:var(--sh)">
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0">${ini}</div>
+        <div style="flex:1"><div style="font-size:13px;font-weight:700">${u.name}</div><div style="font-size:11px;color:var(--g500)">${u.u}${org?' · '+org.name:''}</div></div>
+        <span style="font-size:11px;font-weight:700;padding:3px 11px;border-radius:20px;background:${r.bg};color:${r.c}">${r.l}</span>
+        <button class="btn btn-ghost btn-sm" onclick="delUser('${u.id}')">Sil</button>
+      </div>`;
+    }).join('')}
+  `;
+}
+
+function delUser(id){
+  if(!confirm('Bu istifadəçini silmək istədiyinizdən əminsiniz?')) return;
+  DB.set('users',(DB.get('users')||[]).filter(u=>u.id!==id));
+  rUsers();
+}
+
+/* ─── AUDIT ── */
+function rAudit(){
+  sbAdmin('sb-audit');
+  const logs=DB.get('logs')||[];
+  const DC={LOGIN:'var(--green)',LOGOUT:'var(--g400)',ASSESSMENT_APPROVED:'var(--green)',ASSESSMENT_SUBMITTED:'var(--amber)',ASSESSMENT_REJECTED:'var(--red)',SCORES_UPDATED:'var(--blue)',USER_CREATED:'#6b21a8'};
+  document.getElementById('main-audit').innerHTML=`
+    <div class="ph"><div class="pt">Audit Log</div><div class="ps">Bütün əməliyyatların tam qeydi</div></div>
+    <div class="card"><div class="cb" style="padding:0 1.25rem">
+      ${logs.map(l=>`<div class="log-row">
+        <div class="log-t">${l.t||''}</div>
+        <div class="log-dot" style="background:${DC[l.act]||'var(--g400)'}"></div>
+        <div class="log-txt"><strong>${l.user||'Sistem'}</strong> → ${(l.act||'').replace(/_/g,' ')} · ${l.d||''}</div>
+      </div>`).join('')||'<div style="padding:2rem;text-align:center;color:var(--g400);font-size:12px">Qeyd yoxdur.</div>'}
+    </div></div>
+  `;
+}
+
+/* ─── MODALS ── */
+function showAddUserM(){
+  const orgs=DB.get('orgs')||[];
+  document.getElementById('modal').innerHTML=`
+    <div class="mbg" onclick="if(event.target===this)closeM()">
+      <div class="mbox">
+        <h3>Yeni İstifadəçi Yarat</h3>
+        ${['fullName:Ad Soyad:text:Əli Əliyev','username:İstifadəçi adı:text:eli.eliyev','password:Şifrə:password:••••••••'].map(f=>{const[k,l,t,p]=f.split(':');return`<div class="fg"><label class="fl">${l}</label><input class="fi" type="${t}" id="nu_${k}" placeholder="${p}"></div>`;}).join('')}
+        <div class="fg"><label class="fl">Rol</label><select class="fi" id="nu_role" onchange="document.getElementById('nu_org_row').style.display=this.value==='QURUM'?'block':'none'">
+          <option value="ADMIN">Admin</option><option value="QURUM" selected>Qurum</option><option value="EKSPERT">Ekspert</option><option value="QIYMETLENDIRICI">Qiymətləndiricı</option>
+        </select></div>
+        <div class="fg" id="nu_org_row"><label class="fl">Qurum</label><select class="fi" id="nu_org">
+          <option value="">— Seçin —</option>${orgs.map(o=>`<option value="${o.id}">${o.name}</option>`).join('')}
+        </select></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem">
+          <button class="btn btn-ghost" onclick="closeM()">Ləğv et</button>
+          <button class="btn btn-blue" onclick="createUser()">Yarat</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function createUser(){
+  const name=document.getElementById('nu_fullName').value.trim();
+  const uname=document.getElementById('nu_username').value.trim();
+  const pass=document.getElementById('nu_password').value;
+  const role=document.getElementById('nu_role').value;
+  const orgId=document.getElementById('nu_org')?.value||null;
+  if(!name||!uname||!pass){alert('Bütün sahələri doldurun.');return;}
+  if(pass.length<6){alert('Şifrə minimum 6 simvol olmalıdır.');return;}
+  if(role==='QURUM'&&!orgId){alert('Qurum rolu üçün qurum seçilməlidir.');return;}
+  const users=DB.get('users')||[];
+  if(users.find(u=>u.u===uname)){alert('Bu istifadəçi adı artıq mövcuddur.');return;}
+  users.push({id:'u'+Date.now(),u:uname,p:pass,name,role,orgId:orgId||null});
+  DB.set('users',users);
+  addLog('USER_CREATED',CUR.user.name,name+' ('+uname+') yaradıldı','purple');
+  closeM();
+  rUsers();
+}
+
+function showAddOrgM(){
+  document.getElementById('modal').innerHTML=`
+    <div class="mbg" onclick="if(event.target===this)closeM()">
+      <div class="mbox">
+        <h3>Yeni Qurum Əlavə Et</h3>
+        <div class="fg"><label class="fl">Qurum adı</label><input class="fi" id="no_name" placeholder="Qurum adı"></div>
+        <div class="fg"><label class="fl">Qısa ad</label><input class="fi" id="no_short" placeholder="Qısa ad"></div>
+        <div class="fg"><label class="fl">Qrup</label><select class="fi" id="no_grp">
+          <option value="MIH">Mərkəzi İcra Hakimiyyəti</option>
+          <option value="PHŞ">Publik Hüquqi Şəxslər</option>
+          <option value="DMS">Dövlət Mülkiyyətli Şirkətlər</option>
+          <option value="DDQ">Digər Dövlət Qurumları</option>
+        </select></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem">
+          <button class="btn btn-ghost" onclick="closeM()">Ləğv et</button>
+          <button class="btn btn-blue" onclick="createOrg()">Əlavə et</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function createOrg(){
+  const name=document.getElementById('no_name').value.trim();
+  const short=document.getElementById('no_short').value.trim();
+  const grp=document.getElementById('no_grp').value;
+  if(!name){alert('Qurum adı tələb olunur.');return;}
+  const orgs=DB.get('orgs')||[];
+  orgs.push({id:'o'+Date.now(),name,short,grp});
+  DB.set('orgs',orgs);
+  closeM();
+  rAdmin();
+}
+
+function closeM(){document.getElementById('modal').innerHTML='';}
+
+/* ═══════════════════════════════════════
+   INIT
+═══════════════════════════════════════ */
+seed();
+goTo('login');
+</script>
+</body>
+</html>
